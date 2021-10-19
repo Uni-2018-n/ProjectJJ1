@@ -1,0 +1,8 @@
+#ifndef INVERTEDSEARCHENGINE_HPP
+#define INVERTEDSEARCHENGINE_HPP
+
+class InvertedSearchEngine
+{
+};
+
+#endif // INVERTEDSEARCHENGINE_HPP
