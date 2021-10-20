@@ -5,4 +5,6 @@ Checks: >
     -readability-braces-around-statements,-readability-implicit-bool-conversion,google-*,
     -google-readability-braces-around-statements,llvm-*,-llvm-header-guard,
     -bugprone-sizeof-expression,-cppcoreguidelines-owning-memory,-llvm-include-order,
-    -cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers
+    -cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-google-readability-todo,
+    -cppcoreguidelines-avoid-c-arrays,-modernize-avoid-c-arrays,-cppcoreguidelines-special-member-functions,
+    -misc-non-private-member-variables-in-classes
