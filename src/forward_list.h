@@ -1,8 +1,6 @@
 #ifndef FORWARD_LIST_H
 #define FORWARD_LIST_H
 
-#include <cstddef>
-
 namespace simple
 {
 
@@ -19,7 +17,6 @@ template <class T>
 class forward_list
 {
 	using value_type = T;
-	using pointer_type = T*;
 	using reference = value_type&;
 	using const_reference = const value_type&;
 	using node = forward_list_node<T>;
