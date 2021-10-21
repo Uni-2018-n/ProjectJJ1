@@ -35,7 +35,7 @@ public:
 		}
 	}
 
-	void push_back(const_reference item)
+	forward_list_node<T>* push_back(const_reference item)
 	{
 		auto new_node = new node(item);
 
@@ -50,6 +50,8 @@ public:
 			m_tail->m_next = new_node;
 			m_tail = m_tail->m_next;
 		}
+
+		return new_node;
 	}
 
 	bool empty() const { return m_head == nullptr; }

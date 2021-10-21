@@ -1,6 +1,7 @@
 #include "../lib/include/catch2/catch.hpp"
 
 #include "../src/unordered_map.h"
+#include "../src/pair.h"
 
 using namespace simple;
 
@@ -23,13 +24,14 @@ TEST_CASE("Insert items to unordered_map.", "[insert_to_unordered_map]")
 {
 	unordered_map<int, char, decltype(test_hash_function)> my_map(5, test_hash_function);
 
-	my_map.insert(make_pair(1, 'a'));
-	my_map.insert(make_pair(2, 'b'));
-	my_map.insert(make_pair(3, 'c'));
-	my_map.insert(make_pair(4, 'd'));
-	my_map.insert(make_pair(5, 'e'));
-	my_map.insert(make_pair(6, 'f'));
-	my_map.insert(make_pair(7, 'g'));
+	// my_map.insert(make_pair(1, 'a'));
+	my_map.insert(pair<const int, char>(1, 'a'));
+	my_map.insert(pair<const int, char>(2, 'b'));
+	my_map.insert(pair<const int, char>(3, 'c'));
+	my_map.insert(pair<const int, char>(4, 'd'));
+	my_map.insert(pair<const int, char>(5, 'e'));
+	my_map.insert(pair<const int, char>(6, 'f'));
+	my_map.insert(pair<const int, char>(7, 'g'));
 
 	REQUIRE(*my_map[1] == 'a');
 	REQUIRE(*my_map[2] == 'b');
@@ -44,8 +46,8 @@ TEST_CASE("Modify value inserted to unordered map.", "[modify_value_inserted_to_
 {
 	unordered_map<int, char, decltype(test_hash_function)> my_map(1, test_hash_function);
 
-	my_map.insert(make_pair(99, 'a'));
-	my_map.insert(make_pair(0, 'b'));
+	my_map.insert(pair<const int, char>(99, 'a'));
+	my_map.insert(pair<const int, char>(0, 'b'));
 
 	*my_map[99] = 'y';
 	*my_map[0] = 'z';
@@ -61,10 +63,10 @@ TEST_CASE("Store many items in one unordered map list.", "[multiple_items_one_un
 {
 	unordered_map<int, char, decltype(test_hash_function)> my_map(1, test_hash_function);
 
-	my_map.insert(make_pair(54, 'a'));
-	my_map.insert(make_pair(99, 'b'));
-	my_map.insert(make_pair(18, 'c'));
-	my_map.insert(make_pair(60, 'd'));
+	my_map.insert(pair<const int, char>(54, 'a'));
+	my_map.insert(pair<const int, char>(99, 'b'));
+	my_map.insert(pair<const int, char>(18, 'c'));
+	my_map.insert(pair<const int, char>(60, 'd'));
 
 	REQUIRE(*my_map[54] == 'a');
 	REQUIRE(*my_map[99] == 'b');
@@ -76,10 +78,10 @@ TEST_CASE("Try to find non existing item.", "[find_non_existing_item]")
 {
 	unordered_map<int, char, decltype(test_hash_function)> my_map(2, test_hash_function);
 
-	my_map.insert(make_pair(54, 'a'));
-	my_map.insert(make_pair(99, 'b'));
-	my_map.insert(make_pair(18, 'c'));
-	my_map.insert(make_pair(60, 'd'));
+	my_map.insert(pair<const int, char>(54, 'a'));
+	my_map.insert(pair<const int, char>(99, 'b'));
+	my_map.insert(pair<const int, char>(18, 'c'));
+	my_map.insert(pair<const int, char>(60, 'd'));
 
 	REQUIRE(my_map[53] == nullptr);
 	REQUIRE(my_map[23] == nullptr);
@@ -92,8 +94,11 @@ TEST_CASE("Insert existing key.", "[insert_existing_key]")
 {
 	unordered_map<int, char, decltype(test_hash_function)> my_map(2, test_hash_function);
 
-	my_map.insert(make_pair(54, 'a'));
-	my_map.insert(make_pair(54, 'b'));
+	auto return_value = my_map.insert(pair<const int, char>(54, 'a'));
+	REQUIRE(return_value.m_second == true);
+
+	return_value = my_map.insert(pair<const int, char>(54, 'b'));
+	REQUIRE(return_value.m_second == false);
 
 	REQUIRE(*my_map[54] == 'a');
 }
