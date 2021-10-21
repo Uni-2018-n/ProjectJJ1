@@ -1,11 +1,13 @@
 #include "../lib/include/catch2/catch.hpp"
 
 #include "../src/entry.h"
-#include "../src/word.h"
+#include "../src/string.h"
+
+using simple::string;
 
 TEST_CASE("Create an entry and test its members.", "[create_entry_test_members]")
 {
-	word my_word("this is a sentence.");
+	string my_word("this is a sentence.");
 
 	entry my_entry(my_word, 5);
 
@@ -16,7 +18,7 @@ TEST_CASE("Create an entry and test its members.", "[create_entry_test_members]"
 
 TEST_CASE("Add a query to an entry.", "[add_query_to_entry]")
 {
-	word my_word("this is a sentence.");
+	string my_word("this is a sentence.");
 
 	entry my_entry(my_word, 5);
 
