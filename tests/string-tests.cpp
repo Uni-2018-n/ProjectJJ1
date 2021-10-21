@@ -6,7 +6,7 @@
 
 using simple::string;
 
-TEST_CASE("Create a string.", "[create_string]") { string my_word("this is a string."); }
+TEST_CASE("Create a string.", "[create_string]") { string my_string("this is a string."); }
 
 TEST_CASE("Test for equality of the string.", "[test_equality]")
 {
@@ -32,4 +32,13 @@ TEST_CASE("Change string character.", "[change_string_character]")
 	word_1[1] = 'a';
 
 	REQUIRE(word_1[1] == 'a');
+}
+
+TEST_CASE("Check copy constructor.", "[check_copy_constructor]")
+{
+	string word_1("this is a string.");
+
+	string word_2 = word_1;
+
+	REQUIRE(word_1 == word_2);
 }

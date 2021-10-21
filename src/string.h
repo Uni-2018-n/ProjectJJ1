@@ -13,6 +13,9 @@ struct string
 	using size_type = std::size_t;
 
 	string() = default;
+
+	string(const string& other) { strncpy(m_text, other.m_text, MAX_WORD_LENGTH + 1); }
+
 	explicit string(const char* other) { strncpy(m_text, other, MAX_WORD_LENGTH + 1); }
 
 	constexpr string& operator=(const char* other)

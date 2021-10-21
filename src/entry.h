@@ -6,7 +6,7 @@
 
 struct entry
 {
-	entry(const simple::string& string, int first_query) : m_word(string)
+	entry(const simple::string& word, int first_query) : m_word(word)
 	{
 		m_matching_queries.emplace_back(first_query);
 	}
