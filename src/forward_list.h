@@ -52,9 +52,9 @@ public:
 		}
 	}
 
-	bool empty() { return m_head == nullptr; }
+	bool empty() const { return m_head == nullptr; }
 
-	node_pointer front() { return m_head; }
+	node_pointer front() const { return m_head; }
 
 private:
 	node_pointer m_head = nullptr;

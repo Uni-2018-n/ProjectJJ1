@@ -44,7 +44,7 @@ public:
 	{
 	}
 
-	T* operator[](const Key& key)
+	T* operator[](const Key& key) const
 	{
 		size_type index = get_hash(key);
 
@@ -81,7 +81,7 @@ public:
 	}
 
 private:
-	size_type get_hash(Key key)
+	size_type get_hash(Key key) const
 	{
 		return m_hash_function(static_cast<size_type>(key)) % m_items.size();
 	}
