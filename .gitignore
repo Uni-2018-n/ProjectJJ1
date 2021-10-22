@@ -22,3 +22,11 @@ _deps
 DartConfiguration.tcl
 vgcore.*
 run_tests_*
+
+
+.cache
+.clang-tidy
+.clang-format
+.vscode
+build
+.cmake/
