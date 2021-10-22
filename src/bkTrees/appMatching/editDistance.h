@@ -3,9 +3,6 @@
 
 #include "../../string.h"
 
-// using simple::string;
-
-int eDistance();
-
+int getEdit(simple::string f, simple::string s);
 
 #endif // !editDistance

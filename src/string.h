@@ -29,6 +29,8 @@ struct string
 	bool operator!=(const string& other) const { return !(*this == other); }
 
 	char& operator[](size_type index) { return m_text[index]; }
+	
+	size_type size() { return strlen(m_text); }
 
 	struct HashFunction
 	{
