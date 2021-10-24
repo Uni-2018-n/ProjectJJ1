@@ -6,10 +6,10 @@
 
 using simple::string;
 
-int getEdit(string f, string s){
+unsigned long getEdit(string f, string s){
     unsigned long a=f.size(), b=s.size();
     // std::cout << a << std::endl << b << std::endl;
-    int d[b+1][a+1];
+    unsigned long d[b+1][a+1];
     // int** d = new int*[a+1];
     // for(unsigned long i=0;i<a+1;i++){
     //     d[i] = new int[b+1];
@@ -47,12 +47,12 @@ int getEdit(string f, string s){
     }
     // std::cout << "Test" << std::endl;
     // int fin = d[a][b];
-    for(unsigned long i=0;i<b+1;i++){
-        for(unsigned long j=0;j<a+1;j++){
-            std::cout << d[i][j] << ' ';
-        }
-        std::cout << std::endl;
-    }
+    // for(unsigned long i=0;i<b+1;i++){
+    //     for(unsigned long j=0;j<a+1;j++){
+    //         std::cout << d[i][j] << ' ';
+    //     }
+    //     std::cout << std::endl;
+    // }
 
     // std::cout << d[b][a] << std:: endl;
     return d[b][a];

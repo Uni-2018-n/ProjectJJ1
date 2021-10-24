@@ -3,6 +3,6 @@
 
 #include "../../string.h"
 
-int getEdit(simple::string f, simple::string s);
+unsigned long getEdit(simple::string f, simple::string s);
 
 #endif // !editDistance
