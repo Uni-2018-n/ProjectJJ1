@@ -23,6 +23,15 @@ struct string
 		strncpy(m_text, other, MAX_WORD_LENGTH + 1);
 		return *this;
 	}
+	
+	constexpr string& operator=(const bud::string& other)
+	{
+		if (this == &other)
+			return *this;
+
+		strncpy(m_text, other.m_text, MAX_WORD_LENGTH + 1);
+		return *this;
+	}
 
 	bool operator==(const string& other) const { return !(strcmp(m_text, other.m_text)); }
 
