@@ -1,11 +1,12 @@
-#ifndef WORD_H
-#define WORD_H
+#ifndef STRING_H
+#define STRING_H
 
 #include <cstring>
+#include <cstddef>
 
 #include "core.h"
 
-namespace simple
+namespace bud
 {
 
 struct string
@@ -14,25 +15,23 @@ struct string
 
 	string() = default;
 
-	string(const string& other) { strncpy(m_text, other.m_text, MAX_WORD_LENGTH + 1); }
+	string(const string& other);
 
-	explicit string(const char* other) { strncpy(m_text, other, MAX_WORD_LENGTH + 1); }
+	explicit string(const char* other);
 
-	constexpr string& operator=(const char* other)
-	{
-		strncpy(m_text, other, MAX_WORD_LENGTH + 1);
-		return *this;
-	}
+	constexpr string& operator=(const bud::string& other);
 
-	bool operator==(const string& other) const { return !(strcmp(m_text, other.m_text)); }
+	bool operator==(const string& other) const;
 
-	bool operator!=(const string& other) const { return !(*this == other); }
+	bool operator!=(const string& other) const;
 
-	char& operator[](size_type index) { return m_text[index]; }
+	char& operator[](size_type index);
+
+	size_type size();
 
 	struct HashFunction
 	{
-		std::size_t operator()(const string& value) const
+		size_type operator()(const bud::string& value) const
 		{
 			size_type i = 0;
 
@@ -41,11 +40,21 @@ struct string
 
 			return i;
 		}
+
+		size_type operator()(bud::string* value) const
+		{
+			size_type i = 0;
+
+			for (size_type j = 0; value->m_text[j]; j++)
+				i += static_cast<std::size_t>(value->m_text[j]);
+
+			return i;
+		}
 	};
 
 	char m_text[MAX_WORD_LENGTH + 1] = {};
 };
 
-} // namespace simple
+} // namespace bud
 
-#endif // WORD_H
+#endif // STRING_H

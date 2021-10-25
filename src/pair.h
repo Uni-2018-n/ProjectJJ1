@@ -1,18 +1,20 @@
 #ifndef PAIR_H
 #define PAIR_H
 
-namespace simple
+#include <utility>
+
+namespace bud
 {
 
 template <class T1, class T2>
 struct pair
 {
-	pair(const T1& first, const T2& second) : m_first(first), m_second(second) {}
+	pair(T1 x, T2 y) : first(std::move(x)), second(std::move(y)) {}
 
-	T1 m_first;
-	T2 m_second;
+	T1 first;
+	T2 second;
 };
 
-} // namespace simple
+} // namespace bud
 
 #endif // PAIR_H

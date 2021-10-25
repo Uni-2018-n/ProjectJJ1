@@ -6,7 +6,7 @@
 #include <iterator>
 #include <exception>
 
-namespace simple
+namespace bud
 {
 
 constexpr float CAPACITY_INCREASE_FACTOR = 1.5;
@@ -112,11 +112,18 @@ public:
 
 	constexpr explicit vector() = default;
 
-	constexpr explicit vector(size_type num_of_elements, const T& value = T())
+	constexpr explicit vector(size_type num_of_elements, const T& value)
 	{
 		reallocate(num_of_elements);
 		for (size_type i = 0; i < num_of_elements; ++i)
 			emplace_back(value);
+	}
+
+	constexpr explicit vector(size_type num_of_elements)
+	{
+		reallocate(num_of_elements);
+		for (size_type i = 0; i < num_of_elements; ++i)
+			emplace_back(T());
 	}
 
 	constexpr vector(vector&& other) noexcept { move(std::move(other)); }
@@ -193,7 +200,7 @@ public:
 
 	constexpr void push_back(T&& value) { emplace_back(std::move(value)); }
 
-	template <typename... Args>
+	template <class... Args>
 	constexpr reference emplace_back(Args&&... args)
 	{
 		if (m_size == m_capacity)
@@ -202,6 +209,16 @@ public:
 		new (&m_elements[m_size]) T(std::forward<Args>(args)...);
 
 		return m_elements[m_size++];
+	}
+
+	constexpr void insert(iterator first, iterator last)
+	{
+		size_type new_capacity = static_cast<size_type>(last - first) + m_size;
+
+		reserve(new_capacity);
+
+		for (; first != last; first++)
+			emplace_back(*first);
 	}
 
 	constexpr void pop_back() noexcept
@@ -240,7 +257,7 @@ public:
 private:
 	constexpr void reallocate(size_type new_cap)
 	{
-		T* new_block = allocate_new_T_block(new_cap);
+		T* new_block = allocate_new_t_block(new_cap);
 		transfer_items_to_new_block<T>(new_block);
 
 		destruct_elements();
@@ -268,6 +285,9 @@ private:
 
 	constexpr void move(vector&& other)
 	{
+		destruct_elements();
+		::operator delete(m_elements);
+
 		m_capacity = std::exchange(other.m_capacity, 0);
 		m_elements = std::exchange(other.m_elements, nullptr);
 		m_size = std::exchange(other.m_size, 0);
@@ -280,7 +300,7 @@ private:
 		if (m_capacity < other.m_size)
 		{
 			::operator delete(m_elements);
-			m_elements = allocate_new_T_block(other.m_size);
+			m_elements = allocate_new_t_block(other.m_size);
 			m_capacity = other.m_size;
 		}
 
@@ -301,7 +321,7 @@ private:
 		return m_capacity * CAPACITY_INCREASE_FACTOR + 1;
 	}
 
-	constexpr T* allocate_new_T_block(size_type size) const
+	constexpr T* allocate_new_t_block(size_type size) const
 	{
 		return static_cast<T*>(::operator new(sizeof(T) * size));
 	}
@@ -311,6 +331,6 @@ private:
 	size_type m_size = 0;
 };
 
-} // namespace simple
+} // namespace bud
 
 #endif // VECTOR_H

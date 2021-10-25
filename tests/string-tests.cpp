@@ -4,7 +4,7 @@
 
 #include <cstring>
 
-using simple::string;
+using bud::string;
 
 TEST_CASE("Create a string.", "[create_string]") { string my_string("this is a string."); }
 
@@ -16,6 +16,13 @@ TEST_CASE("Test for equality of the string.", "[test_equality]")
 
 	REQUIRE(word_1 == word_2);
 	REQUIRE(word_1 != word_3);
+}
+
+TEST_CASE("Copy strings.", "[copy_strings]")
+{
+	string word_1("this is a string.");
+	string word_2 = word_1;
+	REQUIRE(word_1 == word_2);
 }
 
 TEST_CASE("Check string character.", "[check_string_character]")

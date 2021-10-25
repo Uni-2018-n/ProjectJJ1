@@ -1,5 +1,6 @@
 # Other files
 Project1.pdf
+*.cbp
 
 # Executables
 inverted_google
@@ -22,3 +23,4 @@ _deps
 DartConfiguration.tcl
 vgcore.*
 run_tests_*
+/cmake-build-debug/

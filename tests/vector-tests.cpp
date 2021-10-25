@@ -2,7 +2,7 @@
 
 #include "../src/vector.h"
 
-using simple::vector;
+using bud::vector;
 
 TEST_CASE("Check if a new vector is empty.", "[empty_vector_empty]")
 {
@@ -11,7 +11,7 @@ TEST_CASE("Check if a new vector is empty.", "[empty_vector_empty]")
 	REQUIRE(empty_vector.empty());
 }
 
-TEST_CASE("Check capacity after reserve.", "[capacity_after_reserve]")
+TEST_CASE("Check capacity after reserve in vector.", "[capacity_after_reserve_vector]")
 {
 	vector<int> empty_vector;
 	empty_vector.reserve(10);
@@ -19,7 +19,8 @@ TEST_CASE("Check capacity after reserve.", "[capacity_after_reserve]")
 	REQUIRE(empty_vector.capacity() == 10);
 }
 
-TEST_CASE("Check if defalt constructed elements exist.", "[check_default_constructed_elements]")
+TEST_CASE("Check if default constructed elements exist in vector.",
+		  "[check_default_constructed_elements]")
 {
 	vector<int> my_vector(3);
 
@@ -32,8 +33,8 @@ TEST_CASE("Check if defalt constructed elements exist.", "[check_default_constru
 	REQUIRE(my_vector.at(2) == 0);
 }
 
-TEST_CASE("Check if elements added from constructor exist",
-		  "[check_elements_from_constructor_exist]")
+TEST_CASE("Check if elements added from constructor exist in vector",
+		  "[check_elements_from_constructor_exist_vector]")
 {
 	vector<int> my_vector(2, 9);
 
@@ -44,7 +45,8 @@ TEST_CASE("Check if elements added from constructor exist",
 	REQUIRE(my_vector.at(1) == 9);
 }
 
-TEST_CASE("Check size after adding some elements.", "[check_size_after_adding_elements]")
+TEST_CASE("Check size after adding some elements in vector.",
+		  "[check_size_after_adding_elements_vector]")
 {
 	vector<int> vec_1(2, 9);
 	REQUIRE(vec_1.size() == 2);
@@ -53,7 +55,7 @@ TEST_CASE("Check size after adding some elements.", "[check_size_after_adding_el
 	REQUIRE(vec_2.size() == 3);
 }
 
-TEST_CASE("Emplace back some elements.", "[emplace_back_elements]")
+TEST_CASE("Emplace back some elements in vector.", "[emplace_back_elements_vector]")
 {
 	vector<int> my_vec;
 	my_vec.reserve(2);
@@ -69,7 +71,7 @@ TEST_CASE("Emplace back some elements.", "[emplace_back_elements]")
 	REQUIRE(my_vec[2] == 33);
 }
 
-TEST_CASE("Push back some elements.", "[push_back_elements]")
+TEST_CASE("Push back some elements in vector.", "[push_back_elements_vector]")
 {
 	vector<int> my_vec;
 	my_vec.reserve(2);
@@ -97,7 +99,7 @@ TEST_CASE("Clear vector.", "[clear_vector]")
 	REQUIRE(my_vec.size() == 0);
 }
 
-TEST_CASE("Pop back some elements.", "[pop_back_elements]")
+TEST_CASE("Pop back some elements in vector.", "[pop_back_elements_vector]")
 {
 	vector<int> my_vec;
 	my_vec.reserve(2);
@@ -116,7 +118,7 @@ TEST_CASE("Pop back some elements.", "[pop_back_elements]")
 	REQUIRE(my_vec.size() == 2);
 }
 
-TEST_CASE("Test iterators.", "[test_iterators]")
+TEST_CASE("Test iterators in vector.", "[test_iterators_vector]")
 {
 	int sum = 0;
 

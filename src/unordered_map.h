@@ -7,11 +7,12 @@
 #include "vector.h"
 #include "core.h"
 #include "pair.h"
+#include "util.h"
 
-namespace simple
+namespace bud
 {
 
-using size_type = std::size_t;
+const std::size_t DEFAULT_SIZE = 15;
 
 template <class Key, class T, class Hash>
 class unordered_map
@@ -19,28 +20,25 @@ class unordered_map
 public:
 	using key_type = Key;
 	using mapped_type = T;
-	using value_type = pair<const Key, T>;
+	using value_type = pair<const key_type, mapped_type>;
 	using reference = value_type&;
 	using const_reference = const value_type&;
 	using hasher = Hash;
+	using size_type = std::size_t;
 
-	explicit unordered_map(size_type size, hasher hash_function = Hash()) :
-		m_items((size == 0) ? 1 : size, forward_list<value_type>()), m_hash_function(hash_function)
-	{
-	}
+	explicit unordered_map(size_type size = DEFAULT_SIZE) : m_items(size) {}
 
-	T* operator[](const Key& key) const
+	T* operator[](const key_type& key) const
 	{
+		if (m_items.size() == 0)
+			return nullptr;
+
 		size_type index = get_hash(key);
 
-		auto current_item = m_items[index].front();
-
-		while (current_item != nullptr)
+		for (auto& item : m_items[index])
 		{
-			if (current_item->m_value.m_first == key)
-				return &(current_item->m_value.m_second);
-
-			current_item = current_item->m_next;
+			if (compare_values(item.first, key))
+				return &(item.second);
 		}
 
 		return nullptr;
@@ -48,33 +46,31 @@ public:
 
 	pair<T*, bool> insert(const_reference value)
 	{
-		size_type index = get_hash(value.m_first);
+		size_type index = 0;
 
-		auto current_item = m_items[index].front();
+		if (m_items.size() != 0)
+			index = get_hash(value.first);
 
-		while (current_item != nullptr)
+		forward_list<value_type>* bucket_ptr = &(m_items[index]);
+
+		for (auto& item : *bucket_ptr)
 		{
-			if (current_item->m_value.m_first == value.m_first)
-				return pair<T*, bool>(&(current_item->m_value.m_second), false);
-
-			current_item = current_item->m_next;
+			if (item.first == value.first)
+				return pair<T*, bool>(&item.second, false);
 		}
 
-		auto return_value = &(m_items[index].push_back(value)->m_value.m_second);
+		T* return_value = &(bucket_ptr->emplace_back(value).second);
 
 		return pair<T*, bool>(return_value, true);
 	}
 
 private:
-	size_type get_hash(Key key) const
-	{
-		return m_hash_function(static_cast<size_type>(key)) % m_items.size();
-	}
+	size_type get_hash(key_type key) const { return m_hash_function(key) % m_items.size(); }
 
 	vector<forward_list<value_type>> m_items;
 	Hash m_hash_function;
 };
 
-} // namespace simple
+} // namespace bud
 
 #endif // UNORDERED_MAP_H
