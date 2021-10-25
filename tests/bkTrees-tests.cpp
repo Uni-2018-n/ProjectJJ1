@@ -36,6 +36,9 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
+	for(auto* x: vec){
+		delete x;
+	}
 }
 
 TEST_CASE("more bk test", "[bk_tests2]")
@@ -66,6 +69,9 @@ TEST_CASE("more bk test", "[bk_tests2]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
+	for(auto* x: vec){
+		delete x;
+	}
 }
 
 TEST_CASE("empty vec bk test", "[bk_tests3]")
@@ -85,5 +91,8 @@ TEST_CASE("empty vec bk test", "[bk_tests3]")
 	catch (const std::invalid_argument& ia)
 	{
 		std::cerr << ia.what() << std::endl;
+	}
+	for(auto* x: vec){
+		delete x;
 	}
 }

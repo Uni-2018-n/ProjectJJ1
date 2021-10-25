@@ -1,6 +1,7 @@
 #include "bkTree.h"
 #include "../string.h"
 #include "../vector.h"
+#include "../inverted_search_engine.h"
 
 #include "appMatching/editDistance.h"
 #include <iostream>
@@ -9,18 +10,28 @@
 using bud::string;
 using bud::vector;
 
-bkNode::bkNode(string* s) { str = s; }
+bkNode::bkNode(string* s, match_type m) { str = s; type = m; }
 
 void bkNode::add(string* s)
 {
-	unsigned long curr = getEdit(*str, *s);
+	unsigned long curr;
+	if(type == EDIT_DISTANCE){
+		curr = getEdit(*str, *s);
+	}else{
+		curr = 0;
+	}
 	if (childs[curr] == nullptr)
 	{
-		childs[curr] = new bkNode(s);
+		childs[curr] = new bkNode(s, type);
 	}
 	else
 	{
 		childs[curr]->add(s);
+	}
+}
+bkNode::~bkNode(){
+	for(auto* x:childs){
+		delete x;
 	}
 }
 
@@ -29,7 +40,13 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 	vector<string*> fin;
 	if (*str != string(""))
 	{
-		int temp = getEdit(*str, s);
+		int temp;
+		if(type == EDIT_DISTANCE){
+			temp = getEdit(*str, s);
+		}else{ 
+			temp = -1;
+		}
+
 		if (temp <= tol)
 		{
 			fin.emplace_back(str);
@@ -46,20 +63,26 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 	}
 	return fin;
 }
-bkTree::bkTree(const bud::vector<bud::string*>& vec)
-{
-	if (vec.size() == 0)
+
+bkTree::bkTree(bud::vector<bud::vector<bud::string*>*>* queries, match_type m)//TODO
+:inverted_search_engine(queries){
+	type = m;
+	if (m_words_from_all_queries.size() == 0)
 	{
 		throw std::invalid_argument("Vector is empty!");
 		return;
 	}
-	root = new bkNode(vec[0]);
-	for (unsigned i = 1; i < vec.size(); i++)
+	root = new bkNode(m_words_from_all_queries[0], type);
+	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)
 	{
-		this->add(vec[i]);
+		this->add(m_words_from_all_queries[i]);
 	}
+}
+
+bkTree::~bkTree(){
+	delete root;
 }
 
 void bkTree::add(string* s) { root->add(s); }
 
-bud::vector<bud::string*> bkTree::find(const bud::string& s, int tol) { return root->find(s, tol); }
+bud::vector<bud::string*> bkTree::findd(const bud::string& s, int tol) { return root->find(s, tol); }

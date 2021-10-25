@@ -4,23 +4,27 @@
 #include "../string.h"
 #include "../core.h"
 #include "../vector.h"
+#include "../inverted_search_engine.h"
 
 class bkNode {
     bud::string* str;
-
+    match_type type;
     bud::vector<bkNode*> childs = bud::vector<bkNode*>(2*MAX_WORD_LENGTH, nullptr);
 public:
-    bkNode(bud::string* s);
+    bkNode(bud::string* s, match_type m);
+    ~bkNode();
     void add(bud::string* s);
     bud::vector<bud::string*> find(const bud::string& s, int tol);
 };
 
-class bkTree {
+class bkTree:public inverted_search_engine{
     bkNode* root;
+    match_type type;
     void add(bud::string* s);
 public:
-    bkTree(const bud::vector<bud::string*>& vec);
-    bud::vector<bud::string*> find(const bud::string& s, int tol);
+    bkTree(bud::vector<bud::vector<bud::string*>*>*, match_type);
+    ~bkTree();
+    bud::vector<bud::string*> findd(const bud::string& s, int tol);
 };
 
 #endif // !BKTREE_HPP

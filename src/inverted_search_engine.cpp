@@ -1,5 +1,6 @@
 #include "inverted_search_engine.h"
 
+#include "bkTrees/bkTree.h"
 #include "string.h"
 #include "vector.h"
 #include "exact_matching_engine.h"
@@ -58,18 +59,15 @@ bud::vector<bud::vector<bud::string>> inverted_search_engine::copy_query_vector(
 
 inverted_search_engine*
 inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::string*>*>* queries,
-											  match_type match_type)
+											  match_type type)
 {
-	return new exact_matching_engine(queries);
-
-	//	switch (match_type)
-	//	{
-	//	case EXACT:
-	//		return new exact_matching_engine(queries);
-	//		break;
-	//	case EDIT_DISTANCE:
-	//		break;
-	//	case HAMMING_DISTANCE:
-	//		break;
-	//	}
+	switch (type)
+	{
+	case EXACT:
+		return new exact_matching_engine(queries);
+		break;
+	default:
+		return new bkTree(queries, type)
+		break;
+	}
 }

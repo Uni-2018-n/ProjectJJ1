@@ -27,7 +27,7 @@ void delete_vector_of_vectors_of_strings_1(vector<vector<string*>*>& my_vec)
 
 TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 {
-	FILE* queries_fp = fopen("queries/query_3.txt", "r");
+	FILE* queries_fp = fopen("../queries/query_3.txt", "r");
 
 	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
 
@@ -36,7 +36,7 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 	inverted_search_engine* engine =
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
-	FILE* documents_fp = fopen("documents/document_3.txt", "r");
+	FILE* documents_fp = fopen("../documents/document_3.txt", "r");
 
 	vector<string> document_words = read_unique_words_into_vector(documents_fp);
 
@@ -52,7 +52,7 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 TEST_CASE("Test words in queries.", "[words_in_queries]")
 {
 	//	FILE* queries_fp = fopen("../queries/query_4.txt", "r");
-	FILE* queries_fp = fopen("queries/query_4.txt", "r");
+	FILE* queries_fp = fopen("../queries/query_4.txt", "r");
 
 	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
 
@@ -62,7 +62,7 @@ TEST_CASE("Test words in queries.", "[words_in_queries]")
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
 	//	FILE* documents_fp = fopen("../documents/document_4.txt", "r");
-	FILE* documents_fp = fopen("documents/document_4.txt", "r");
+	FILE* documents_fp = fopen("../documents/document_4.txt", "r");
 
 	vector<string> document_words = read_unique_words_into_vector(documents_fp);
 
