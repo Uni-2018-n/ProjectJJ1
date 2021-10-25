@@ -4,7 +4,7 @@
 
 #include "../../string.h"
 
-using simple::string;
+using bud::string;
 
 unsigned long getEdit(string f, string s){
     unsigned long a=f.size(), b=s.size();

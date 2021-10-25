@@ -19,7 +19,7 @@ struct string
 
 	explicit string(const char* other);
 
-	constexpr string& operator=(const bud::string& other);
+	string& operator=(const bud::string& other);
 
 	bool operator==(const string& other) const;
 

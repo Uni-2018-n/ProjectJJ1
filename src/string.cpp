@@ -4,7 +4,7 @@ bud::string::string(const string& other) { strncpy(m_text, other.m_text, MAX_WOR
 
 bud::string::string(const char* other) { strncpy(m_text, other, MAX_WORD_LENGTH + 1); }
 
-constexpr bud::string& bud::string::operator=(const bud::string& other)
+bud::string& bud::string::operator=(const bud::string& other)
 {
 	if (this == &other)
 		return *this;

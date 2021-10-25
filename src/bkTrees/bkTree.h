@@ -6,22 +6,21 @@
 #include "../vector.h"
 
 class bkNode {
-    simple::string* str;
+    bud::string* str;
 
-    simple::vector<bkNode*> childs = simple::vector<bkNode*>(2*MAX_WORD_LENGTH, nullptr);
+    bud::vector<bkNode*> childs = bud::vector<bkNode*>(2*MAX_WORD_LENGTH, nullptr);
 public:
-    bkNode(simple::string* s);
-    void add(simple::string* s);
-    simple::vector<simple::string*> find(const simple::string& s, int tol);
+    bkNode(bud::string* s);
+    void add(bud::string* s);
+    bud::vector<bud::string*> find(const bud::string& s, int tol);
 };
 
 class bkTree {
     bkNode* root;
-    void add(simple::string* s);
+    void add(bud::string* s);
 public:
-    bkTree(const simple::vector<simple::string*>& vec);
-    simple::vector<simple::string*> find(const simple::string& s, int tol);
+    bkTree(const bud::vector<bud::string*>& vec);
+    bud::vector<bud::string*> find(const bud::string& s, int tol);
 };
 
 #endif // !BKTREE_HPP
-
