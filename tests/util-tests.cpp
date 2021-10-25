@@ -28,7 +28,7 @@ void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec)
 
 TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vector]")
 {
-	FILE* fp = fopen("../queries/query_0.txt", "r");
+	FILE* fp = fopen("queries/query_0.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
@@ -42,7 +42,7 @@ TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vec
 TEST_CASE("Read file with one item and convert contents to vector.",
 		  "[file_with_one_item_to_vector]")
 {
-	FILE* fp = fopen("../queries/query_1.txt", "r");
+	FILE* fp = fopen("queries/query_1.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
@@ -60,7 +60,7 @@ TEST_CASE("Read file with one item and convert contents to vector.",
 TEST_CASE("Read file query with multiple words and convert contents to vector.",
 		  "[file_one_query_words_to_vector]")
 {
-	FILE* fp = fopen("../queries/query_2.txt", "r");
+	FILE* fp = fopen("queries/query_2.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
@@ -84,7 +84,7 @@ TEST_CASE("Read file query with multiple words and convert contents to vector.",
 
 TEST_CASE("Read empty document.", "[read_empty_document]")
 {
-	FILE* fp = fopen("../documents/document_0.txt", "r");
+	FILE* fp = fopen("documents/document_0.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
@@ -97,7 +97,7 @@ TEST_CASE("Read empty document.", "[read_empty_document]")
 
 TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate]")
 {
-	FILE* fp = fopen("../documents/document_1.txt", "r");
+	FILE* fp = fopen("documents/document_1.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
@@ -114,7 +114,7 @@ TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate
 
 TEST_CASE("Read document with duplicate words.", "[read_document_duplicate]")
 {
-	FILE* fp = fopen("../documents/document_2.txt", "r");
+	FILE* fp = fopen("documents/document_2.txt", "r");
 
 	REQUIRE(fp != nullptr);
 
