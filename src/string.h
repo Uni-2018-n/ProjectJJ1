@@ -24,7 +24,7 @@ struct string
 		return *this;
 	}
 	
-	constexpr string& operator=(const bud::string& other)
+	constexpr string& operator=(const simple::string& other)
 	{
 		if (this == &other)
 			return *this;
