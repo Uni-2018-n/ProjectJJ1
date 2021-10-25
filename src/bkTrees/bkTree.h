@@ -12,15 +12,15 @@ class bkNode {
 public:
     bkNode(simple::string* s);
     void add(simple::string* s);
-    simple::vector<simple::string*> find(const simple::string& s);
+    simple::vector<simple::string*> find(const simple::string& s, int tol);
 };
 
 class bkTree {
     bkNode* root;
-public:
-    bkTree(simple::vector<simple::string*>& vec);
     void add(simple::string* s);
-    simple::vector<simple::string*> find(const simple::string& s);
+public:
+    bkTree(const simple::vector<simple::string*>& vec);
+    simple::vector<simple::string*> find(const simple::string& s, int tol);
 };
 
 #endif // !BKTREE_HPP

@@ -10,45 +10,72 @@ using simple::vector;
 
 TEST_CASE("simple bk test", "[bk_tests1]")
 {
-    const vector<string*>* vec;
+    vector<string*> vec;
+    vec.emplace_back(new string("hell"));
+    vec.emplace_back(new string("help"));
+    vec.emplace_back(new string("shell"));
+    vec.emplace_back(new string("smell"));
+    vec.emplace_back(new string("fell"));
+    vec.emplace_back(new string("felt"));
+    vec.emplace_back(new string("oops"));
+    vec.emplace_back(new string("pop"));
+    vec.emplace_back(new string("oouch"));
+    vec.emplace_back(new string("halt"));
 
-
-
-
-    // bkTree temp(string("hell"));
-
-    // temp.add(string("help"));
-    // temp.add(string("shell"));
-    // temp.add(string("smell"));
-    // temp.add(string("fell"));
-    // temp.add(string("felt"));
-    // temp.add(string("oops"));
-    // temp.add(string("pop"));
-    // temp.add(string("oouch"));
-    // temp.add(string("halt"));
-    // for(auto x: temp.getSimilars(string("ops"))){
-    //     std::cout << x.m_text << std::endl;
-    // }
-    // REQUIRE(temp.getSimilars(string("ops")).size() == 2);
-
+    try{
+        bkTree temp(vec);
+        vector<string*> p = temp.find(string("ops"), 2);
+        for(auto x:p){
+            std::cout << x->m_text << std::endl;
+        }
+        REQUIRE(p.size() == 2);        
+    }
+    catch (const char* msg){
+        std::cerr << msg << std::endl;
+    }
 }
+
 
 TEST_CASE("more bk test", "[bk_tests2]")
 {
-    // bkTree temp(string("hell"));
+    vector<string*> vec;
+    vec.emplace_back(new string("hell"));
+    vec.emplace_back(new string("help"));
+    vec.emplace_back(new string("shell"));
+    vec.emplace_back(new string("smell"));
+    vec.emplace_back(new string("fell"));
+    vec.emplace_back(new string("felt"));
+    vec.emplace_back(new string("oops"));
+    vec.emplace_back(new string("pop"));
+    vec.emplace_back(new string("oouch"));
+    vec.emplace_back(new string("halt"));
 
-    // temp.add(string("help"));
-    // temp.add(string("shell"));
-    // temp.add(string("smell"));
-    // temp.add(string("fell"));
-    // temp.add(string("felt"));
-    // temp.add(string("oops"));
-    // temp.add(string("pop"));
-    // temp.add(string("oouch"));
-    // temp.add(string("halt"));
-    // for(auto x: temp.getSimilars(string("helt"))){
-    //     std::cout << x.m_text << std::endl;
-    // }
-    // REQUIRE(temp.getSimilars(string("helt")).size() == 6);
+    try{
+        bkTree temp(vec);
+        vector<string*> p = temp.find(string("helt"), 2);
+        for(auto x:p){
+            std::cout << x->m_text << std::endl;
+        }
+        REQUIRE(p.size() == 6);        
+    }
+    catch (const char* msg){
+        std::cerr << msg << std::endl;
+    }
+}
 
+TEST_CASE("empty vec bk test", "[bk_tests3]")
+{
+    vector<string*> vec;
+
+    try{
+        bkTree temp(vec);
+        vector<string*> p = temp.find(string("helt"), 2);
+        for(auto x:p){
+            std::cout << x->m_text << std::endl;
+        }
+        REQUIRE(p.size() == 6);        
+    }
+    catch (const char* msg){
+        std::cerr << msg << std::endl;
+    }
 }

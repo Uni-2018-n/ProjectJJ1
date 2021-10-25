@@ -21,23 +21,27 @@ void bkNode::add(string* s){
     }
 }
 
-simple::vector<simple::string*> bkNode::find(const simple::string& s){
+simple::vector<simple::string*> bkNode::find(const simple::string& s, int tol){
     vector<string*> fin;
     if(*str != string("")){
         int temp = getEdit(*str, s);
-        if(temp <= EDIT_TOL){
+        if(temp <= tol){
             fin.emplace_back(str);
         }
-        for(unsigned long i = temp - EDIT_TOL < 0 ? 1 : unsigned(temp - EDIT_TOL); i <= unsigned(temp+EDIT_TOL);i++){
+        for(unsigned long i = temp - tol < 0 ? 1 : unsigned(temp - tol); i <= unsigned(temp+tol);i++){
             if(childs[i] != nullptr){
-                vector<string*> t = childs[i]->find(s);
+                vector<string*> t = childs[i]->find(s, tol);
                 fin.insert(t.begin(), t.end());
             }
         }
     }
     return fin;
 }
-bkTree::bkTree(simple::vector<simple::string*>& vec){
+bkTree::bkTree(const simple::vector<simple::string*>& vec){
+    if(vec.size() == 0){
+        throw "Vector is empty!";
+        return;
+    }
     root = new bkNode(vec[0]);
     for(unsigned i=1;i<vec.size();i++){
         this->add(vec[i]);
@@ -48,6 +52,6 @@ void bkTree::add(string* s){
     root->add(s);
 }
 
-simple::vector<simple::string*> bkTree::find(const simple::string& s){
-    return root->find(s);
+simple::vector<simple::string*> bkTree::find(const simple::string& s, int tol){
+    return root->find(s, tol);
 }
