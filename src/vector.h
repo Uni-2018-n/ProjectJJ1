@@ -210,6 +210,16 @@ public:
 
 		return m_elements[m_size++];
 	}
+	
+	constexpr void insert(iterator first, iterator last)
+	{
+		size_type new_capacity = static_cast<size_type>(last - first) + m_size;
+
+		reserve(new_capacity);
+
+		for (; first != last; first++)
+			emplace_back(*first);
+	}
 
 	constexpr void insert(iterator first, iterator last)
 	{
