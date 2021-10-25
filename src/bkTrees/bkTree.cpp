@@ -4,6 +4,7 @@
 
 #include "appMatching/editDistance.h"
 #include <iostream>
+#include <stdexcept>
 
 using bud::string;
 using bud::vector;
@@ -49,7 +50,7 @@ bkTree::bkTree(const bud::vector<bud::string*>& vec)
 {
 	if (vec.size() == 0)
 	{
-		throw "Vector is empty!";
+		throw std::invalid_argument("Vector is empty!");
 		return;
 	}
 	root = new bkNode(vec[0]);

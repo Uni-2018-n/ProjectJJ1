@@ -3,6 +3,7 @@
 #include "../src/string.h"
 #include "../src/bkTrees/bkTree.h"
 #include <iostream>
+#include <stdexcept>
 
 using bud::string;
 using bud::vector;
@@ -26,14 +27,14 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 		bkTree temp(vec);
 		vector<string*> p = temp.find(string("ops"), 2);
 		for (auto x : p)
-		{
-			std::cout << x->m_text << std::endl;
-		}
+		// {
+		// 	std::cout << x->m_text << std::endl;
+		// }
 		REQUIRE(p.size() == 2);
 	}
-	catch (const char* msg)
+	catch (const std::invalid_argument& ia)
 	{
-		std::cerr << msg << std::endl;
+		std::cerr << ia.what() << std::endl;
 	}
 }
 
@@ -55,15 +56,15 @@ TEST_CASE("more bk test", "[bk_tests2]")
 	{
 		bkTree temp(vec);
 		vector<string*> p = temp.find(string("helt"), 2);
-		for (auto x : p)
-		{
-			std::cout << x->m_text << std::endl;
-		}
+		// for (auto x : p)
+		// {
+		// 	std::cout << x->m_text << std::endl;
+		// }
 		REQUIRE(p.size() == 6);
 	}
-	catch (const char* msg)
+	catch (const std::invalid_argument& ia)
 	{
-		std::cerr << msg << std::endl;
+		std::cerr << ia.what() << std::endl;
 	}
 }
 
@@ -75,14 +76,14 @@ TEST_CASE("empty vec bk test", "[bk_tests3]")
 	{
 		bkTree temp(vec);
 		vector<string*> p = temp.find(string("helt"), 2);
-		for (auto x : p)
-		{
-			std::cout << x->m_text << std::endl;
-		}
+		// for (auto x : p)
+		// {
+		// 	std::cout << x->m_text << std::endl;
+		// }
 		REQUIRE(p.size() == 6);
 	}
-	catch (const char* msg)
+	catch (const std::invalid_argument& ia)
 	{
-		std::cerr << msg << std::endl;
+		std::cerr << ia.what() << std::endl;
 	}
 }
