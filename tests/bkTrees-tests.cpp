@@ -8,23 +8,34 @@
 using bud::string;
 using bud::vector;
 
+void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec);
+
+void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec)
+{
+	for (auto* in_vec : *my_vec)
+	{
+		for (auto* word : *in_vec)
+		{
+			delete word;
+		}
+
+		delete in_vec;
+	}
+
+	delete my_vec;
+}
+
 TEST_CASE("simple bk test", "[bk_tests1]")
 {
-	vector<string*> vec;
-	vec.emplace_back(new string("hell"));
-	vec.emplace_back(new string("help"));
-	vec.emplace_back(new string("shell"));
-	vec.emplace_back(new string("smell"));
-	vec.emplace_back(new string("fell"));
-	vec.emplace_back(new string("felt"));
-	vec.emplace_back(new string("oops"));
-	vec.emplace_back(new string("pop"));
-	vec.emplace_back(new string("oouch"));
-	vec.emplace_back(new string("halt"));
+	FILE* queries_fp = fopen("../queries/query_5.txt", "r");
+
+	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
+
+	fclose(queries_fp);
 
 	try
 	{
-		bkTree temp(vec);
+		bkTree temp(queries);
 		vector<string*> p = temp.find(string("ops"), 2);
 		for (auto x : p)
 		// {
@@ -36,30 +47,22 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	for(auto* x: vec){
-		delete x;
-	}
+	delete_vector_of_vectors_of_strings(queries);
 }
 
 TEST_CASE("more bk test", "[bk_tests2]")
 {
-	vector<string*> vec;
-	vec.emplace_back(new string("hell"));
-	vec.emplace_back(new string("help"));
-	vec.emplace_back(new string("shell"));
-	vec.emplace_back(new string("smell"));
-	vec.emplace_back(new string("fell"));
-	vec.emplace_back(new string("felt"));
-	vec.emplace_back(new string("oops"));
-	vec.emplace_back(new string("pop"));
-	vec.emplace_back(new string("oouch"));
-	vec.emplace_back(new string("halt"));
+	FILE* queries_fp = fopen("../queries/query_5.txt", "r");
+
+	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
+
+	fclose(queries_fp);
 
 	try
 	{
-		bkTree temp(vec);
+		bkTree temp(queries);
 		vector<string*> p = temp.find(string("helt"), 2);
-		// for (auto x : p)
+		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
 		// }
@@ -69,20 +72,22 @@ TEST_CASE("more bk test", "[bk_tests2]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	for(auto* x: vec){
-		delete x;
-	}
+	delete_vector_of_vectors_of_strings(queries);
 }
 
 TEST_CASE("empty vec bk test", "[bk_tests3]")
 {
-	vector<string*> vec;
+	FILE* queries_fp = fopen("../queries/query_0.txt", "r");
+
+	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
+
+	fclose(queries_fp);
 
 	try
 	{
-		bkTree temp(vec);
+		bkTree temp(queries);
 		vector<string*> p = temp.find(string("helt"), 2);
-		// for (auto x : p)
+		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
 		// }
@@ -92,7 +97,5 @@ TEST_CASE("empty vec bk test", "[bk_tests3]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	for(auto* x: vec){
-		delete x;
-	}
+	delete_vector_of_vectors_of_strings(queries);
 }
