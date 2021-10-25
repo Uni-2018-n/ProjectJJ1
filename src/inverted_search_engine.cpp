@@ -67,7 +67,7 @@ inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::strin
 		return new exact_matching_engine(queries);
 		break;
 	default:
-		return new bkTree(queries, type)
+		return new bkTree(queries, type);
 		break;
 	}
 }

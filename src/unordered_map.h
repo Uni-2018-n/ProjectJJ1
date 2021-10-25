@@ -26,18 +26,21 @@ public:
 	using hasher = Hash;
 	using size_type = std::size_t;
 
-	explicit unordered_map(size_type size = DEFAULT_SIZE) : m_items(size) {}
+	explicit unordered_map(size_type size = DEFAULT_SIZE, bool compare_pointers = false) :
+		m_items(size), m_compare_pointers(compare_pointers)
+	{
+	}
 
 	T* operator[](const key_type& key) const
 	{
 		if (m_items.size() == 0)
 			return nullptr;
 
-		size_type index = get_hash(key);
+		size_type index = m_get_hash(key);
 
 		for (auto& item : m_items[index])
 		{
-			if (compare_values(item.first, key))
+			if ((m_compare_pointers && item.first == key) || compare_values(item.first, key))
 				return &(item.second);
 		}
 
@@ -49,26 +52,32 @@ public:
 		size_type index = 0;
 
 		if (m_items.size() != 0)
-			index = get_hash(value.first);
+			index = m_get_hash(value.first);
 
 		forward_list<value_type>* bucket_ptr = &(m_items[index]);
 
 		for (auto& item : *bucket_ptr)
 		{
-			if (item.first == value.first)
+			if (compare_values(item.first, value.first))
 				return pair<T*, bool>(&item.second, false);
 		}
 
 		T* return_value = &(bucket_ptr->emplace_back(value).second);
 
+		++m_size;
+
 		return pair<T*, bool>(return_value, true);
 	}
 
+	size_type size() { return m_size; }
+
 private:
-	size_type get_hash(key_type key) const { return m_hash_function(key) % m_items.size(); }
+	size_type m_get_hash(key_type key) const { return m_hash_function(key) % m_items.size(); }
+	size_type m_size = 0;
 
 	vector<forward_list<value_type>> m_items;
 	Hash m_hash_function;
+	bool m_compare_pointers;
 };
 
 } // namespace bud

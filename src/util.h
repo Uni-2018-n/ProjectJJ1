@@ -32,4 +32,33 @@ bool compare_values(T* first, T* second)
 	return *first == *second;
 }
 
+struct HashFunction
+{
+	std::size_t operator()(const bud::string& value) const
+	{
+		std::size_t i = 0;
+
+		for (std::size_t j = 0; value.m_text[j]; j++)
+			i += static_cast<std::size_t>(value.m_text[j]);
+
+		return i;
+	}
+
+	std::size_t operator()(bud::string* value) const
+	{
+		std::size_t i = 0;
+
+		for (std::size_t j = 0; value->m_text[j]; j++)
+			i += static_cast<std::size_t>(value->m_text[j]);
+
+		return i;
+	}
+
+	template <typename T>
+	std::size_t operator()(T* value) const
+	{
+		return reinterpret_cast<std::size_t>(value);
+	}
+};
+
 #endif // UTIL_H

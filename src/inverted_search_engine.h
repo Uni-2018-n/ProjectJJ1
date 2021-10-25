@@ -31,7 +31,7 @@ public:
 		m_words_from_all_queries.reserve(num_of_words);
 
 		m_hash_map = new bud::unordered_map<bud::string*, bud::vector<bud::vector<bud::string*>*>,
-											bud::string::HashFunction>(num_of_words);
+											HashFunction>(num_of_words);
 
 		add_queries_to_containers();
 	}
@@ -81,8 +81,8 @@ protected:
 
 	bud::vector<bud::string*> m_words_from_all_queries;
 
-	bud::unordered_map<bud::string*, bud::vector<bud::vector<bud::string*>*>,
-					   bud::string::HashFunction>* m_hash_map;
+	bud::unordered_map<bud::string*, bud::vector<bud::vector<bud::string*>*>, HashFunction>*
+		m_hash_map;
 };
 
 #endif // INVERTED_SEARCH_ENGINE_H

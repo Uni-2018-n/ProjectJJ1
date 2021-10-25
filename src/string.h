@@ -29,29 +29,6 @@ struct string
 
 	size_type size();
 
-	struct HashFunction
-	{
-		size_type operator()(const bud::string& value) const
-		{
-			size_type i = 0;
-
-			for (size_type j = 0; value.m_text[j]; j++)
-				i += static_cast<std::size_t>(value.m_text[j]);
-
-			return i;
-		}
-
-		size_type operator()(bud::string* value) const
-		{
-			size_type i = 0;
-
-			for (size_type j = 0; value->m_text[j]; j++)
-				i += static_cast<std::size_t>(value->m_text[j]);
-
-			return i;
-		}
-	};
-
 	char m_text[MAX_WORD_LENGTH + 1] = {};
 };
 

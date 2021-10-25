@@ -49,8 +49,7 @@ bud::vector<bud::string> read_unique_words_into_vector(FILE* fp)
 
 	unique_words.reserve(apr_num_of_unique_words);
 
-	bud::unordered_map<bud::string, bool, bud::string::HashFunction> hash_map(
-		apr_num_of_unique_words + 1);
+	bud::unordered_map<bud::string, bool, HashFunction> hash_map(apr_num_of_unique_words + 1);
 
 	char* buffer = nullptr;
 
