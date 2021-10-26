@@ -10,7 +10,7 @@ using bud::pair;
 using bud::string;
 using bud::vector;
 
-inverted_search_engine::inverted_search_engine(vector<bud::vector<bud::string*>>& queries)
+inverted_search_engine::inverted_search_engine(const vector<bud::vector<bud::string*>>& queries)
 {
 	if (queries.empty())
 		throw std::invalid_argument("Queries vector can't by empty.");
@@ -35,11 +35,11 @@ inverted_search_engine::~inverted_search_engine()
 bud::vector<int> inverted_search_engine::find(bud::string& word) const { return find(word, 0); }
 
 void inverted_search_engine::add_queries_to_containers(
-	bud::vector<bud::vector<bud::string*>>& queries)
+	const bud::vector<bud::vector<bud::string*>>& queries)
 {
 	int query_index = 0;
 
-	for (auto& query : queries)
+	for (const auto& query : queries)
 	{
 		for (auto* word : query)
 		{
@@ -72,7 +72,7 @@ inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::strin
 {
 	switch (type)
 	{
-	case EXACT:
+	case match_type::EXACT:
 		return new exact_matching_engine(queries);
 	default:
 		return new bkTree(queries, type);
@@ -80,7 +80,7 @@ inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::strin
 }
 
 std::size_t
-inverted_search_engine::count_words_in_queries(vector<bud::vector<bud::string*>>& queries)
+inverted_search_engine::count_words_in_queries(const vector<bud::vector<bud::string*>>& queries)
 {
 	std::size_t sum = 0;
 

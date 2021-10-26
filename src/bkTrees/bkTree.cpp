@@ -23,7 +23,7 @@ bkNode::bkNode(string* s, match_type m)
 void bkNode::add(string* s)
 {
 	unsigned long curr;
-	if (type == EDIT_DISTANCE)
+	if (type == match_type::EDIT_DISTANCE)
 	{
 		curr = getEdit(*str, *s);
 	}
@@ -54,7 +54,7 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 	if (*str != string(""))
 	{
 		int temp;
-		if (type == EDIT_DISTANCE)
+		if (type == match_type::EDIT_DISTANCE)
 		{
 			temp = getEdit(*str, s);
 		}

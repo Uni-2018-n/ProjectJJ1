@@ -9,7 +9,7 @@
 class exact_matching_engine : public inverted_search_engine
 {
 public:
-	explicit exact_matching_engine(bud::vector<bud::vector<bud::string*>>& queries);
+	explicit exact_matching_engine(const bud::vector<bud::vector<bud::string*>>& queries);
 
 	bud::vector<int> find(bud::string& word) const override;
 

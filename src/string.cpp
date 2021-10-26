@@ -22,4 +22,4 @@ bool bud::string::operator!=(const bud::string& other) const { return !(*this ==
 
 char& bud::string::operator[](bud::string::size_type index) { return m_text[index]; }
 
-bud::string::size_type bud::string::size() { return strlen(m_text); }
+bud::string::size_type bud::string::size() const { return strlen(m_text); }

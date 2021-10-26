@@ -6,7 +6,8 @@
 using bud::string;
 using bud::vector;
 
-exact_matching_engine::exact_matching_engine(bud::vector<bud::vector<bud::string*>>& queries) :
+exact_matching_engine::exact_matching_engine(
+	const bud::vector<bud::vector<bud::string*>>& queries) :
 	inverted_search_engine(queries)
 {
 }

@@ -65,7 +65,12 @@ bud::vector<bud::vector<bud::string*>> bud::file_reader::read_queries()
 
 		ssize_t chars_read = getline(&buffer, &len, m_file);
 		if (chars_read == -1)
+		{
+			if (!query.empty())
+				queries_vector.emplace_back(query);
+
 			break;
+		}
 
 		if (buffer[0] != '\n')
 			buffer[chars_read - 1] = '\0';
@@ -86,8 +91,6 @@ bud::vector<bud::vector<bud::string*>> bud::file_reader::read_queries()
 	}
 
 	free(buffer);
-
-	queries_vector.emplace_back(query);
 
 	return queries_vector;
 }

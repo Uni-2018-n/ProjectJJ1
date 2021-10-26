@@ -9,7 +9,7 @@
 #include "unordered_map.h"
 #include "string.h"
 
-enum match_type
+enum class match_type
 {
 	EXACT,
 	EDIT_DISTANCE,
@@ -19,7 +19,7 @@ enum match_type
 class inverted_search_engine
 {
 public:
-	explicit inverted_search_engine(bud::vector<bud::vector<bud::string*>>& queries);
+	explicit inverted_search_engine(const bud::vector<bud::vector<bud::string*>>& queries);
 
 	virtual ~inverted_search_engine();
 
@@ -30,9 +30,10 @@ public:
 	virtual bud::vector<int> find(bud::string& word) const;
 
 protected:
-	void add_queries_to_containers(bud::vector<bud::vector<bud::string*>>& queries);
+	void add_queries_to_containers(const bud::vector<bud::vector<bud::string*>>& queries);
 
-	static std::size_t count_words_in_queries(bud::vector<bud::vector<bud::string*>>& queries);
+	static std::size_t
+	count_words_in_queries(const bud::vector<bud::vector<bud::string*>>& queries);
 
 	bud::vector<bud::string*> m_words_from_all_queries;
 

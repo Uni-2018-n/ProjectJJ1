@@ -15,6 +15,8 @@ struct string
 
 	string() = default;
 
+	~string() = default;
+
 	string(const string& other);
 
 	explicit string(const char* other);
@@ -27,7 +29,7 @@ struct string
 
 	char& operator[](size_type index);
 
-	size_type size();
+	size_type size() const;
 
 	char m_text[MAX_WORD_LENGTH + 1] = {};
 };

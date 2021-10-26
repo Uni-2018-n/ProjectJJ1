@@ -25,7 +25,7 @@ void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec)
 
 TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vector]")
 {
-	file_reader my_file_reader("queries/query_0.txt");
+	file_reader my_file_reader("../queries/query_0.txt");
 
 	vector<vector<string*>> queries = my_file_reader.read_queries();
 
@@ -35,7 +35,7 @@ TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vec
 TEST_CASE("Read file with one item and convert contents to vector.",
 		  "[file_with_one_item_to_vector]")
 {
-	file_reader my_file_reader("queries/query_1.txt");
+	file_reader my_file_reader("../queries/query_1.txt");
 
 	vector<vector<string*>> queries = my_file_reader.read_queries();
 
@@ -49,7 +49,7 @@ TEST_CASE("Read file with one item and convert contents to vector.",
 TEST_CASE("Read file query with multiple words and convert contents to vector.",
 		  "[file_one_query_words_to_vector]")
 {
-	file_reader my_file_reader("queries/query_2.txt");
+	file_reader my_file_reader("../queries/query_2.txt");
 
 	vector<vector<string*>> queries = my_file_reader.read_queries();
 
@@ -69,7 +69,7 @@ TEST_CASE("Read file query with multiple words and convert contents to vector.",
 
 TEST_CASE("Read empty document.", "[read_empty_document]")
 {
-	file_reader my_file_reader("documents/document_0.txt");
+	file_reader my_file_reader("../documents/document_0.txt");
 
 	vector<string> document_words = my_file_reader.read_unique_words();
 
@@ -78,7 +78,7 @@ TEST_CASE("Read empty document.", "[read_empty_document]")
 
 TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate]")
 {
-	file_reader my_file_reader("documents/document_1.txt");
+	file_reader my_file_reader("../documents/document_1.txt");
 
 	vector<string> document_words = my_file_reader.read_unique_words();
 
@@ -91,7 +91,7 @@ TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate
 
 TEST_CASE("Read document with duplicate words.", "[read_document_duplicate]")
 {
-	file_reader my_file_reader("documents/document_2.txt");
+	file_reader my_file_reader("../documents/document_2.txt");
 
 	vector<string> document_words = my_file_reader.read_unique_words();
 

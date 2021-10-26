@@ -10,26 +10,24 @@ using bud::file_reader;
 using bud::string;
 using bud::vector;
 
-
 TEST_CASE("simple bk test", "[bk_tests1]")
 {
-	file_reader query_file_reader("../queries/query_5.txt");
+	file_reader query_file_reader("queries/query_5.txt");
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
-	
 
 	try
 	{
 		inverted_search_engine* engine =
-        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
+			inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		// vector<string*> p = temp.find(string("ops"), 2);
 		bud::string ss("ops");
 		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
-		// {
-		// 	std::cout << x->m_text << std::endl;
-		// }
-		REQUIRE(p.size() == 2);
+			// {
+			// 	std::cout << x->m_text << std::endl;
+			// }
+			REQUIRE(p.size() == 2);
 	}
 	catch (const std::invalid_argument& ia)
 	{
@@ -39,21 +37,21 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 
 TEST_CASE("more bk test", "[bk_tests2]")
 {
-	file_reader query_file_reader("../queries/query_5.txt");
+	file_reader query_file_reader("queries/query_5.txt");
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
-	
+
 	try
 	{
 		inverted_search_engine* engine =
-        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
+			inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		bud::string ss("helt");
 		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
-		// {
-		// 	std::cout << x->m_text << std::endl;
-		// }
-		REQUIRE(p.size() == 6);
+			// {
+			// 	std::cout << x->m_text << std::endl;
+			// }
+			REQUIRE(p.size() == 6);
 	}
 	catch (const std::invalid_argument& ia)
 	{
@@ -63,21 +61,21 @@ TEST_CASE("more bk test", "[bk_tests2]")
 
 TEST_CASE("empty vec bk test", "[bk_tests3]")
 {
-	file_reader query_file_reader("../queries/query_0.txt");
+	file_reader query_file_reader("queries/query_0.txt");
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
-	
+
 	try
 	{
 		inverted_search_engine* engine =
-        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
+			inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		bud::string ss("helt");
 		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
-		// {
-		// 	std::cout << x->m_text << std::endl;
-		// }
-		REQUIRE(p.size() == 6);
+			// {
+			// 	std::cout << x->m_text << std::endl;
+			// }
+			REQUIRE(p.size() == 6);
 	}
 	catch (const std::invalid_argument& ia)
 	{

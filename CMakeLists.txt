@@ -19,14 +19,6 @@ add_compile_options(-Wall -Wextra -Wpedantic
         -Wstrict-overflow=2 -Wswitch-default -Wundef -Wno-unused
         -ggdb -O0)
 
-find_program(CLANG_TIDY_EXISTS "clang-tidy")
-IF (CLANG_TIDY_EXISTS)
-    set(CMAKE_CXX_CLANG_TIDY
-            clang-tidy;
-            -header-filter=.*;
-            -use-color;)
-ENDIF ()
-
 file(GLOB_RECURSE TEST_SOURCES tests/*.cpp)
 file(GLOB_RECURSE NO_MAIN_SOURCES src/*.cpp)
 

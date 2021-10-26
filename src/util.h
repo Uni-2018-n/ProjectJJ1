@@ -29,7 +29,7 @@ struct HashFunction
 		return i;
 	}
 
-	std::size_t operator()(bud::string* value) const
+	std::size_t operator()(const bud::string* value) const
 	{
 		std::size_t i = 0;
 
