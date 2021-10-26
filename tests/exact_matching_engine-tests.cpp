@@ -13,14 +13,14 @@ using bud::vector;
 
 TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 {
-	file_reader query_file_reader("queries/query_3.txt");
+	file_reader query_file_reader("../queries/query_3.txt");
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
 
 	inverted_search_engine* engine =
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
-	file_reader document_file_reader("documents/document_3.txt");
+	file_reader document_file_reader("../documents/document_3.txt");
 
 	vector<string> document_words = document_file_reader.read_unique_words();
 
@@ -33,14 +33,14 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 
 TEST_CASE("Test words in queries.", "[words_in_queries]")
 {
-	file_reader query_file_reader("queries/query_4.txt");
+	file_reader query_file_reader("../queries/query_4.txt");
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
 
 	inverted_search_engine* engine =
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
-	file_reader document_file_reader("documents/document_4.txt");
+	file_reader document_file_reader("../documents/document_4.txt");
 
 	vector<string> document_words = document_file_reader.read_unique_words();
 
