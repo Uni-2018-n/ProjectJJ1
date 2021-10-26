@@ -16,7 +16,7 @@ vector<int> exact_matching_engine::find(string& word, int /*threshold*/) const
 {
 	vector<int> empty_vector;
 
-	vector<int>* matching_queries = m_hash_map->operator[](&word);
+	const vector<int>* matching_queries = m_hash_map->operator[](&word);
 
 	return (matching_queries == nullptr) ? empty_vector : *matching_queries;
 }
