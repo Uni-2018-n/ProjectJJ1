@@ -18,7 +18,7 @@ std::size_t get_approximate_number_of_words(std::size_t size_of_file);
 
 bud::vector<bud::string> read_unique_words_into_vector(FILE* fp);
 
-bud::vector<bud::vector<bud::string*>*>* read_queries_into_vector(FILE* fp);
+bud::vector<bud::vector<bud::string*>> read_queries_into_vector(FILE* fp);
 
 template <typename T>
 bool compare_values(const T& first, const T& second)
@@ -54,11 +54,7 @@ struct HashFunction
 		return i;
 	}
 
-	template <typename T>
-	std::size_t operator()(T* value) const
-	{
-		return reinterpret_cast<std::size_t>(value);
-	}
+	std::size_t operator()(int value) const { return static_cast<size_t>(value); }
 };
 
 #endif // UTIL_H

@@ -80,7 +80,7 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 	return fin;
 }
 
-bkTree::bkTree(bud::vector<bud::vector<bud::string*>*>* queries, match_type m) // TODO
+bkTree::bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m) // TODO
 	:
 	inverted_search_engine(queries)
 {
@@ -88,7 +88,6 @@ bkTree::bkTree(bud::vector<bud::vector<bud::string*>*>* queries, match_type m) /
 	if (m_words_from_all_queries.size() == 0)
 	{
 		throw std::invalid_argument("Vector is empty!");
-		return;
 	}
 	root = new bkNode(m_words_from_all_queries[0], type);
 	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)
@@ -101,34 +100,30 @@ bkTree::~bkTree() { delete root; }
 
 void bkTree::add(string* s) { root->add(s); }
 
-bud::vector<bud::string*> bkTree::findd(const bud::string& s, int tol) const
+vector<int> bkTree::find(bud::string& word, int tol) const
 {
-	return root->find(s, tol);
-}
+	bud::vector<bud::string*> matching_words = root->find(word, tol);
 
-bud::vector<bud::vector<bud::string>> bkTree::find(bud::string& word, int tol) const
-{
-	bud::vector<bud::string*> words_found = findd(word, tol);
+	bud::vector<int> matching_queries;
 
-	bud::vector<bud::vector<bud::string*>*> vector_with_pointers;
+	bud::unordered_map<int, bool, HashFunction> inserted_queries(m_hash_map->size());
 
-	bud::unordered_map<vector<string*>*, bool, HashFunction> inserted_queries(m_hash_map->size());
-
-	for (auto* query_word : words_found)
+	for (auto* query_word : matching_words)
 	{
 		auto* queries_with_that_word = m_hash_map->operator[](query_word);
 
-		for (auto* query : *queries_with_that_word)
+		for (auto query : *queries_with_that_word)
 		{
 			if (inserted_queries[query] == nullptr)
-				vector_with_pointers.emplace_back(query);
+			{
+				matching_queries.emplace_back(query);
 
-			else
-				inserted_queries.insert(pair<vector<string*>* const, bool>(query, true));
+				inserted_queries.insert(pair<int const, bool>(query, true));
+			}
 		}
-
-		vector_with_pointers.insert(queries_with_that_word->begin(), queries_with_that_word->end());
 	}
 
-	return copy_query_vector(vector_with_pointers);
+	return matching_queries;
 }
+
+bud::vector<int> bkTree::find(string& word) const { return find(word, 1); }

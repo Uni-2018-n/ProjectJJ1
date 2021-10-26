@@ -24,18 +24,14 @@ class bkTree : public inverted_search_engine
 	bkNode* root;
 	match_type type;
 	void add(bud::string* s);
-	bud::vector<bud::string*> findd(const bud::string& s, int tol) const;
 
 public:
-	bkTree(bud::vector<bud::vector<bud::string*>*>* queries, match_type m);
+	bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m);
 	~bkTree() override;
 
-	bud::vector<bud::vector<bud::string>> find(bud::string& word) const override
-	{
-		return find(word, 0);
-	}
+	bud::vector<int> find(bud::string& word) const override;
 
-	bud::vector<bud::vector<bud::string>> find(bud::string& word, int tol) const override;
+	bud::vector<int> find(bud::string& word, int tol) const override;
 };
 
 #endif // !BKTREE_HPP

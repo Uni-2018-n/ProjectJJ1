@@ -26,10 +26,7 @@ public:
 	using hasher = Hash;
 	using size_type = std::size_t;
 
-	explicit unordered_map(size_type size = DEFAULT_SIZE, bool compare_pointers = false) :
-		m_items(size), m_compare_pointers(compare_pointers)
-	{
-	}
+	explicit unordered_map(size_type size = DEFAULT_SIZE) : m_items(size) {}
 
 	T* operator[](const key_type& key) const
 	{
@@ -40,7 +37,7 @@ public:
 
 		for (auto& item : m_items[index])
 		{
-			if ((m_compare_pointers && item.first == key) || compare_values(item.first, key))
+			if (compare_values(item.first, key))
 				return &(item.second);
 		}
 
@@ -77,7 +74,6 @@ private:
 
 	vector<forward_list<value_type>> m_items;
 	Hash m_hash_function;
-	bool m_compare_pointers;
 };
 
 } // namespace bud

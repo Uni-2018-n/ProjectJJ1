@@ -10,64 +10,84 @@ using bud::pair;
 using bud::string;
 using bud::vector;
 
-bud::vector<bud::vector<bud::string>> inverted_search_engine::find(bud::string& word) const
+inverted_search_engine::inverted_search_engine(vector<bud::vector<bud::string*>>& queries)
 {
-	return find(word, 0);
+	if (queries.empty())
+		throw std::invalid_argument("Queries vector can't by empty.");
+
+	std::size_t num_of_words = count_words_in_queries(queries);
+
+	m_words_from_all_queries.reserve(num_of_words);
+
+	m_hash_map = new bud::unordered_map<bud::string*, bud::vector<int>, HashFunction>(num_of_words);
+
+	add_queries_to_containers(queries);
 }
 
-void inverted_search_engine::add_queries_to_containers()
+inverted_search_engine::~inverted_search_engine()
 {
-	for (auto* query : *m_queries)
+	delete m_hash_map;
+
+	for (auto* word : m_words_from_all_queries)
+		delete word;
+}
+
+bud::vector<int> inverted_search_engine::find(bud::string& word) const { return find(word, 0); }
+
+void inverted_search_engine::add_queries_to_containers(
+	bud::vector<bud::vector<bud::string*>>& queries)
+{
+	int query_index = 0;
+
+	for (auto& query : queries)
 	{
-		for (auto* word : *query)
+		for (auto* word : query)
 		{
-			bud::vector<bud::vector<bud::string*>*>* result = (*m_hash_map)[word];
+			vector<int>* queries_with_that_word = (*m_hash_map)[word];
 
-			if (result == nullptr)
+			if (queries_with_that_word == nullptr)
 			{
-				vector<vector<string*>*> new_vector;
-				new_vector.emplace_back(query);
-
 				m_words_from_all_queries.emplace_back(word);
+
+				vector<int> new_queries_with_that_word;
+				new_queries_with_that_word.emplace_back(query_index);
 				m_hash_map->insert(
-					pair<string* const, vector<vector<string*>*>>(word, std::move(new_vector)));
+					pair<string* const, vector<int>>(word, std::move(new_queries_with_that_word)));
 			}
 
 			else
-				result->emplace_back(query);
+			{
+				queries_with_that_word->emplace_back(query_index);
+				delete word;
+			}
 		}
+
+		query_index++;
 	}
-}
-
-bud::vector<bud::vector<bud::string>> inverted_search_engine::copy_query_vector(
-	const bud::vector<bud::vector<bud::string*>*>& vector_to_copy)
-{
-	vector<vector<string>> return_vector(vector_to_copy.size());
-
-	for (std::size_t i = 0; i < vector_to_copy.size(); i++)
-	{
-		return_vector[i].reserve(vector_to_copy[i]->size());
-
-		for (std::size_t j = 0; j < vector_to_copy[i]->size(); j++)
-		{
-			return_vector[i].emplace_back(*vector_to_copy[i]->operator[](j));
-		}
-	}
-
-	return return_vector;
 }
 
 inverted_search_engine*
-inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::string*>*>* queries,
+inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::string*>>& queries,
 											  match_type type)
 {
 	switch (type)
 	{
 	case EXACT:
 		return new exact_matching_engine(queries);
-		break;
 	default:
 		return new bkTree(queries, type);
-		break;
 	}
+}
+
+std::size_t
+inverted_search_engine::count_words_in_queries(vector<bud::vector<bud::string*>>& queries)
+{
+	std::size_t sum = 0;
+
+	for (const auto& query : queries)
+	{
+		sum += query.size();
+	}
+
+	return sum;
 }

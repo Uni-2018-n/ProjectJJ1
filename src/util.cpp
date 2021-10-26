@@ -4,11 +4,15 @@
 #include <cstring>
 #include <cstdlib>
 #include <exception>
+#include <utility>
 
 #include "core.h"
 #include "vector.h"
 #include "string.h"
 #include "unordered_map.h"
+
+using bud::string;
+using bud::vector;
 
 std::size_t get_approximate_number_of_queries(std::size_t size_of_file)
 {
@@ -35,7 +39,7 @@ int64_t get_size_of_file(FILE* fp)
 	return size;
 }
 
-bud::vector<bud::string> read_unique_words_into_vector(FILE* fp)
+vector<string> read_unique_words_into_vector(FILE* fp)
 {
 	bud::vector<bud::string> unique_words;
 
@@ -77,11 +81,11 @@ bud::vector<bud::string> read_unique_words_into_vector(FILE* fp)
 	return unique_words;
 }
 
-bud::vector<bud::vector<bud::string*>*>* read_queries_into_vector(FILE* fp)
+vector<vector<string*>> read_queries_into_vector(FILE* fp)
 {
 	int64_t size_of_file = get_size_of_file(fp);
 	if (size_of_file == 0)
-		return nullptr;
+		return vector<vector<string*>>();
 
 	std::size_t apr_num_of_queries =
 		get_approximate_number_of_queries(static_cast<std::size_t>(size_of_file));
@@ -90,11 +94,11 @@ bud::vector<bud::vector<bud::string*>*>* read_queries_into_vector(FILE* fp)
 		get_approximate_number_of_words(static_cast<std::size_t>(size_of_file)) /
 		(apr_num_of_queries + 1);
 
-	auto* queries_vector = new bud::vector<bud::vector<bud::string*>*>;
-	queries_vector->reserve(apr_num_of_queries);
+	vector<vector<string*>> queries_vector;
+	queries_vector.reserve(apr_num_of_queries);
 
-	auto* new_vector = new bud::vector<bud::string*>;
-	new_vector->reserve(apr_num_of_words_per_query);
+	vector<string*> query;
+	query.reserve(apr_num_of_words_per_query);
 
 	char* buffer = nullptr;
 
@@ -112,19 +116,21 @@ bud::vector<bud::vector<bud::string*>*>* read_queries_into_vector(FILE* fp)
 		// We found a new query.
 		else
 		{
-			queries_vector->emplace_back(new_vector);
-			new_vector = new bud::vector<bud::string*>;
-			new_vector->reserve(apr_num_of_words_per_query);
+			queries_vector.emplace_back(std::move(query));
+
+			query = vector<string*>();
+			query.reserve(apr_num_of_words_per_query);
+
 			continue;
 		}
 
-		auto* new_string = new bud::string(buffer);
-		new_vector->emplace_back(new_string);
+		auto* new_string = new string(buffer);
+		query.emplace_back(new_string);
 	}
 
 	free(buffer);
 
-	queries_vector->emplace_back(new_vector);
+	queries_vector.emplace_back(query);
 
 	return queries_vector;
 }

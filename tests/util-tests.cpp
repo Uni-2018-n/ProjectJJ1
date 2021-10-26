@@ -9,21 +9,17 @@
 using bud::string;
 using bud::vector;
 
-void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec);
+void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec);
 
-void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec)
+void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec)
 {
-	for (auto* in_vec : *my_vec)
+	for (const auto& in_vec : my_vec)
 	{
-		for (auto* word : *in_vec)
+		for (auto* word : in_vec)
 		{
 			delete word;
 		}
-
-		delete in_vec;
 	}
-
-	delete my_vec;
 }
 
 TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vector]")
@@ -32,11 +28,11 @@ TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vec
 
 	REQUIRE(fp != nullptr);
 
-	vector<vector<string*>*>* queries = read_queries_into_vector(fp);
+	vector<vector<string*>> queries = read_queries_into_vector(fp);
 
 	fclose(fp);
 
-	REQUIRE(queries == nullptr);
+	REQUIRE(queries.empty());
 }
 
 TEST_CASE("Read file with one item and convert contents to vector.",
@@ -46,13 +42,13 @@ TEST_CASE("Read file with one item and convert contents to vector.",
 
 	REQUIRE(fp != nullptr);
 
-	vector<vector<string*>*>* queries = read_queries_into_vector(fp);
+	vector<vector<string*>> queries = read_queries_into_vector(fp);
 
 	fclose(fp);
 
-	REQUIRE(queries->size() == 1);
+	REQUIRE(queries.size() == 1);
 
-	REQUIRE(*(queries->operator[](0)->operator[](0)) == string("this"));
+	REQUIRE(*(queries[0][0]) == string("this"));
 
 	delete_vector_of_vectors_of_strings(queries);
 }
@@ -64,20 +60,20 @@ TEST_CASE("Read file query with multiple words and convert contents to vector.",
 
 	REQUIRE(fp != nullptr);
 
-	vector<vector<string*>*>* queries = read_queries_into_vector(fp);
+	vector<vector<string*>> queries = read_queries_into_vector(fp);
 
 	fclose(fp);
 
-	REQUIRE(queries->size() == 2);
+	REQUIRE(queries.size() == 2);
 
-	REQUIRE(queries->operator[](0)->size() == 3);
-	REQUIRE(*(queries->operator[](0)->operator[](0)) == string("these"));
-	REQUIRE(*(queries->operator[](0)->operator[](1)) == string("are"));
-	REQUIRE(*(queries->operator[](0)->operator[](2)) == string("some"));
+	REQUIRE(queries[0].size() == 3);
+	REQUIRE(*(queries[0][0]) == string("these"));
+	REQUIRE(*(queries[0][1]) == string("are"));
+	REQUIRE(*(queries[0][2]) == string("some"));
 
-	REQUIRE(queries->operator[](1)->size() == 2);
-	REQUIRE(*(queries->operator[](1)->operator[](0)) == string("different"));
-	REQUIRE(*(queries->operator[](1)->operator[](1)) == string("words"));
+	REQUIRE(queries[1].size() == 2);
+	REQUIRE(*(queries[1][0]) == string("different"));
+	REQUIRE(*(queries[1][1]) == string("words"));
 
 	delete_vector_of_vectors_of_strings(queries);
 }
