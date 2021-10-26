@@ -20,10 +20,11 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 
 	try
 	{
-		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		inverted_search_engine* engine =
+        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		// vector<string*> p = temp.find(string("ops"), 2);
 		bud::string ss("ops");
-		vector<int> p = temp.find(ss, 2);
+		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
@@ -44,9 +45,10 @@ TEST_CASE("more bk test", "[bk_tests2]")
 	
 	try
 	{
-		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		inverted_search_engine* engine =
+        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		bud::string ss("helt");
-		vector<int> p = temp.find(ss, 2);
+		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
@@ -67,9 +69,10 @@ TEST_CASE("empty vec bk test", "[bk_tests3]")
 	
 	try
 	{
-		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		inverted_search_engine* engine =
+        inverted_search_engine::search_engine_factory(queries, match_type::EDIT_DISTANCE);
 		bud::string ss("helt");
-		vector<int> p = temp.find(ss, 2);
+		vector<int> p = engine->find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
