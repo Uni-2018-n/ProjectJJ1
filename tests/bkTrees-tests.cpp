@@ -2,41 +2,28 @@
 
 #include "../src/string.h"
 #include "../src/bkTrees/bkTree.h"
+#include "../src/file_reader.h"
 #include <iostream>
 #include <stdexcept>
 
+using bud::file_reader;
 using bud::string;
 using bud::vector;
 
-void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec);
-
-void delete_vector_of_vectors_of_strings(vector<vector<string*>*>* my_vec)
-{
-	for (auto* in_vec : *my_vec)
-	{
-		for (auto* word : *in_vec)
-		{
-			delete word;
-		}
-
-		delete in_vec;
-	}
-
-	delete my_vec;
-}
 
 TEST_CASE("simple bk test", "[bk_tests1]")
 {
-	FILE* queries_fp = fopen("../queries/query_5.txt", "r");
+	file_reader query_file_reader("../queries/query_5.txt");
 
-	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
-
-	fclose(queries_fp);
+	vector<vector<string*>> queries = query_file_reader.read_queries();
+	
 
 	try
 	{
-		bkTree temp(queries);
-		vector<string*> p = temp.find(string("ops"), 2);
+		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		// vector<string*> p = temp.find(string("ops"), 2);
+		bud::string ss("ops");
+		vector<int> p = temp.find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
@@ -47,21 +34,19 @@ TEST_CASE("simple bk test", "[bk_tests1]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	delete_vector_of_vectors_of_strings(queries);
 }
 
 TEST_CASE("more bk test", "[bk_tests2]")
 {
-	FILE* queries_fp = fopen("../queries/query_5.txt", "r");
+	file_reader query_file_reader("../queries/query_5.txt");
 
-	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
-
-	fclose(queries_fp);
-
+	vector<vector<string*>> queries = query_file_reader.read_queries();
+	
 	try
 	{
-		bkTree temp(queries);
-		vector<string*> p = temp.find(string("helt"), 2);
+		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		bud::string ss("helt");
+		vector<int> p = temp.find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
@@ -72,21 +57,19 @@ TEST_CASE("more bk test", "[bk_tests2]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	delete_vector_of_vectors_of_strings(queries);
 }
 
 TEST_CASE("empty vec bk test", "[bk_tests3]")
 {
-	FILE* queries_fp = fopen("../queries/query_0.txt", "r");
+	file_reader query_file_reader("../queries/query_0.txt");
 
-	bud::vector<bud::vector<bud::string*>*>* queries = read_queries_into_vector(queries_fp);
-
-	fclose(queries_fp);
-
+	vector<vector<string*>> queries = query_file_reader.read_queries();
+	
 	try
 	{
-		bkTree temp(queries);
-		vector<string*> p = temp.find(string("helt"), 2);
+		bkTree temp(queries, match_type::EDIT_DISTANCE);
+		bud::string ss("helt");
+		vector<int> p = temp.find(ss, 2);
 		for (auto x : p)
 		// {
 		// 	std::cout << x->m_text << std::endl;
@@ -97,5 +80,4 @@ TEST_CASE("empty vec bk test", "[bk_tests3]")
 	{
 		std::cerr << ia.what() << std::endl;
 	}
-	delete_vector_of_vectors_of_strings(queries);
 }
