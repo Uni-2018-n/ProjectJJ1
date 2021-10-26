@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(TARGET "inverted_google")
+set(TEST_TARGET "run_tests")
 
-project(${TARGET})
+project(${TEST_TARGET})
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -27,19 +27,10 @@ IF (CLANG_TIDY_EXISTS)
             -use-color;)
 ENDIF ()
 
-file(GLOB_RECURSE SOURCES src/*.cpp)
-add_executable(${TARGET} ${SOURCES})
-
-unset(CMAKE_CXX_CLANG_TIDY)
-
-set(TEST_TARGET "run_tests")
-
 file(GLOB_RECURSE TEST_SOURCES tests/*.cpp)
 file(GLOB_RECURSE NO_MAIN_SOURCES src/*.cpp)
-list(REMOVE_ITEM NO_MAIN_SOURCES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 
 find_package(Catch2 REQUIRED PATHS "${PROJECT_SOURCE_DIR}/lib")
-
 
 add_executable(${TEST_TARGET} ${NO_MAIN_SOURCES} ${TEST_SOURCES})
 target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2)
