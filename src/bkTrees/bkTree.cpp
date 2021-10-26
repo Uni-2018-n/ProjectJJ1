@@ -94,7 +94,7 @@ bkTree::bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m) //
 	unsigned long len = m_words_from_all_queries[0]->size();
 	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)
 	{
-		if(m== EDIT_DISTANCE || (m == HAMMING_DISTANCE && m_words_from_all_queries[i]->size() != len)){
+		if(m== match_type::EDIT_DISTANCE || (m == match_type::HAMMING_DISTANCE && m_words_from_all_queries[i]->size() != len)){
 			this->add(m_words_from_all_queries[i]);
 		}
 	}
