@@ -10,9 +10,9 @@ using bud::file_reader;
 using bud::string;
 using bud::vector;
 
-void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec);
+void delete_vector_of_vectors_of_strings(const vector<vector<string*>>& my_vec);
 
-void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec)
+void delete_vector_of_vectors_of_strings(const vector<vector<string*>>& my_vec)
 {
 	for (const auto& in_vec : my_vec)
 	{

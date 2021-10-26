@@ -66,7 +66,7 @@ public:
 		return pair<T*, bool>(return_value, true);
 	}
 
-	size_type size() { return m_size; }
+	size_type size() const { return m_size; }
 
 private:
 	size_type m_get_hash(key_type key) const { return m_hash_function(key) % m_items.size(); }

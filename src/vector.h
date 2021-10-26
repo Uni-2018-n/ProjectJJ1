@@ -310,7 +310,7 @@ private:
 			new (&m_elements[i]) T(other.m_elements[i]);
 	}
 
-	constexpr void destruct_elements()
+	constexpr void destruct_elements() const
 	{
 		for (auto& i : *this)
 			i.~T();
