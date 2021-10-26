@@ -2,10 +2,11 @@
 
 #include <cstdio>
 
-#include "../src/util.h"
+#include "../src/file_reader.h"
 #include "../src/vector.h"
 #include "../src/string.h"
 
+using bud::file_reader;
 using bud::string;
 using bud::vector;
 
@@ -24,13 +25,9 @@ void delete_vector_of_vectors_of_strings(vector<vector<string*>>& my_vec)
 
 TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vector]")
 {
-	FILE* fp = fopen("queries/query_0.txt", "r");
+	file_reader my_file_reader("queries/query_0.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<vector<string*>> queries = read_queries_into_vector(fp);
-
-	fclose(fp);
+	vector<vector<string*>> queries = my_file_reader.read_queries();
 
 	REQUIRE(queries.empty());
 }
@@ -38,13 +35,9 @@ TEST_CASE("Read empty file and convert contents to vector.", "[empty_file_to_vec
 TEST_CASE("Read file with one item and convert contents to vector.",
 		  "[file_with_one_item_to_vector]")
 {
-	FILE* fp = fopen("queries/query_1.txt", "r");
+	file_reader my_file_reader("queries/query_1.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<vector<string*>> queries = read_queries_into_vector(fp);
-
-	fclose(fp);
+	vector<vector<string*>> queries = my_file_reader.read_queries();
 
 	REQUIRE(queries.size() == 1);
 
@@ -56,13 +49,9 @@ TEST_CASE("Read file with one item and convert contents to vector.",
 TEST_CASE("Read file query with multiple words and convert contents to vector.",
 		  "[file_one_query_words_to_vector]")
 {
-	FILE* fp = fopen("queries/query_2.txt", "r");
+	file_reader my_file_reader("queries/query_2.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<vector<string*>> queries = read_queries_into_vector(fp);
-
-	fclose(fp);
+	vector<vector<string*>> queries = my_file_reader.read_queries();
 
 	REQUIRE(queries.size() == 2);
 
@@ -80,26 +69,18 @@ TEST_CASE("Read file query with multiple words and convert contents to vector.",
 
 TEST_CASE("Read empty document.", "[read_empty_document]")
 {
-	FILE* fp = fopen("documents/document_0.txt", "r");
+	file_reader my_file_reader("documents/document_0.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<string> document_words = read_unique_words_into_vector(fp);
-
-	fclose(fp);
+	vector<string> document_words = my_file_reader.read_unique_words();
 
 	REQUIRE(document_words.size() == 0);
 }
 
 TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate]")
 {
-	FILE* fp = fopen("documents/document_1.txt", "r");
+	file_reader my_file_reader("documents/document_1.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<string> document_words = read_unique_words_into_vector(fp);
-
-	fclose(fp);
+	vector<string> document_words = my_file_reader.read_unique_words();
 
 	REQUIRE(document_words.size() == 3);
 
@@ -110,13 +91,9 @@ TEST_CASE("Read document with no duplicate words.", "[read_document_no_duplicate
 
 TEST_CASE("Read document with duplicate words.", "[read_document_duplicate]")
 {
-	FILE* fp = fopen("documents/document_2.txt", "r");
+	file_reader my_file_reader("documents/document_2.txt");
 
-	REQUIRE(fp != nullptr);
-
-	vector<string> document_words = read_unique_words_into_vector(fp);
-
-	fclose(fp);
+	vector<string> document_words = my_file_reader.read_unique_words();
 
 	REQUIRE(document_words.size() == 6);
 
@@ -126,13 +103,4 @@ TEST_CASE("Read document with duplicate words.", "[read_document_duplicate]")
 	REQUIRE(document_words[3] == bud::string("many"));
 	REQUIRE(document_words[4] == bud::string("duplicate"));
 	REQUIRE(document_words[5] == bud::string("words"));
-}
-
-TEST_CASE("Compare pointers and non pointers.", "[compare_pointers_and_non_pointers]")
-{
-	int x = 5;
-	int y = 5;
-
-	REQUIRE(compare_values(x, y));
-	REQUIRE(compare_values(&x, &y));
 }

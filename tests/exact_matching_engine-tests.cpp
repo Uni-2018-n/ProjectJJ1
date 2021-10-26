@@ -3,29 +3,26 @@
 #include <cstdio>
 
 #include "../src/exact_matching_engine.h"
-#include "../src/util.h"
 #include "../src/vector.h"
 #include "../src/string.h"
+#include "../src/file_reader.h"
 
+using bud::file_reader;
 using bud::string;
 using bud::vector;
 
 TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 {
-	FILE* queries_fp = fopen("queries/query_3.txt", "r");
+	file_reader query_file_reader("queries/query_3.txt");
 
-	vector<vector<string*>> queries = read_queries_into_vector(queries_fp);
-
-	fclose(queries_fp);
+	vector<vector<string*>> queries = query_file_reader.read_queries();
 
 	inverted_search_engine* engine =
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
-	FILE* documents_fp = fopen("documents/document_3.txt", "r");
+	file_reader document_file_reader("documents/document_3.txt");
 
-	vector<string> document_words = read_unique_words_into_vector(documents_fp);
-
-	fclose(documents_fp);
+	vector<string> document_words = document_file_reader.read_unique_words();
 
 	vector<int> found_queries = engine->find(document_words[0]);
 
@@ -36,20 +33,16 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 
 TEST_CASE("Test words in queries.", "[words_in_queries]")
 {
-	FILE* queries_fp = fopen("queries/query_4.txt", "r");
+	file_reader query_file_reader("queries/query_4.txt");
 
-	vector<vector<string*>> queries = read_queries_into_vector(queries_fp);
-
-	fclose(queries_fp);
+	vector<vector<string*>> queries = query_file_reader.read_queries();
 
 	inverted_search_engine* engine =
 		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
 
-	FILE* documents_fp = fopen("documents/document_4.txt", "r");
+	file_reader document_file_reader("documents/document_4.txt");
 
-	vector<string> document_words = read_unique_words_into_vector(documents_fp);
-
-	fclose(documents_fp);
+	vector<string> document_words = document_file_reader.read_unique_words();
 
 	vector<int> found_queries = engine->find(document_words[0]);
 	REQUIRE(found_queries.size() == 2);
