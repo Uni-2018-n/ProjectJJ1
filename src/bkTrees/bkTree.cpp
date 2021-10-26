@@ -6,6 +6,7 @@
 #include "../pair.h"
 
 #include "appMatching/editDistance.h"
+#include "appMatching/hammingDistance.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -29,7 +30,7 @@ void bkNode::add(string* s)
 	}
 	else
 	{
-		curr = 0;
+		curr = getHamming(*str, *s);
 	}
 	if (childs[curr] == nullptr)
 	{
@@ -60,7 +61,7 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 		}
 		else
 		{
-			temp = -1;
+			temp = getHamming(*str, s);
 		}
 
 		if (temp <= tol)
@@ -90,9 +91,12 @@ bkTree::bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m) //
 		throw std::invalid_argument("Vector is empty!");
 	}
 	root = new bkNode(m_words_from_all_queries[0], type);
+	unsigned long len = m_words_from_all_queries[0]->size();
 	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)
 	{
-		this->add(m_words_from_all_queries[i]);
+		if(m== match_type::EDIT_DISTANCE || (m == match_type::HAMMING_DISTANCE && m_words_from_all_queries[i]->size() != len)){
+			this->add(m_words_from_all_queries[i]);
+		}
 	}
 }
 
