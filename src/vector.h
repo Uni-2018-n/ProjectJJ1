@@ -9,7 +9,7 @@
 namespace bud
 {
 
-constexpr float CAPACITY_INCREASE_FACTOR = 1.5;
+constexpr std::size_t CAPACITY_INCREASE_FACTOR = 2;
 using size_type = std::size_t;
 
 template <typename T>

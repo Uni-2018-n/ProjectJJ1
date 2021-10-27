@@ -66,6 +66,7 @@ bud::vector<bud::vector<bud::string*>> bud::file_reader::read_queries()
 		ssize_t chars_read = getline(&buffer, &len, m_file);
 		if (chars_read == -1)
 		{
+			// If empty, the file had no data.
 			if (!query.empty())
 				queries_vector.emplace_back(query);
 
