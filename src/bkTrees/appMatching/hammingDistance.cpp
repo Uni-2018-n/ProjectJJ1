@@ -13,5 +13,6 @@ unsigned long getHamming(string f, string s){
             fin++;
         }
     }
+    // std::cout << f.m_text << " " << fin << std::endl;
     return fin;
 }
