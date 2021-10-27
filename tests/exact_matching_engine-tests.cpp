@@ -1,7 +1,5 @@
 #include "../lib/include/catch2/catch.hpp"
 
-#include <cstdio>
-
 #include "../src/exact_matching_engine.h"
 #include "../src/vector.h"
 #include "../src/string.h"

@@ -59,7 +59,7 @@ public:
 				return pair<T*, bool>(&item.second, false);
 		}
 
-		T* return_value = &(bucket_ptr->emplace_back(value).second);
+		T* return_value = &(bucket_ptr->emplace_front(value).second);
 
 		++m_size;
 

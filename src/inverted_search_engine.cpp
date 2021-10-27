@@ -70,13 +70,11 @@ inverted_search_engine*
 inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::string*>>& queries,
 											  match_type type)
 {
-	switch (type)
-	{
-	case match_type::EXACT:
+	if (type == match_type::EXACT)
 		return new exact_matching_engine(queries);
-	default:
-		return new bkTree(queries, type);
-	}
+
+	return new bkTree(queries, type);
+
 }
 
 std::size_t

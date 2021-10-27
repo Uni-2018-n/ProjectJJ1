@@ -14,7 +14,7 @@ TEST_CASE("Add item to empty forward list.", "[add_item_to_empty_forward_list]")
 {
 	forward_list<int> list;
 
-	list.emplace_back(9);
+	list.emplace_front(9);
 
 	REQUIRE(list.front() == 9);
 
@@ -27,8 +27,8 @@ TEST_CASE("Add many items to forward list.", "[add_many_items_to_forward_list]")
 
 	list.push_front(19);
 	list.push_front(29);
-	list.emplace_back(39);
-	list.emplace_back(49);
+	list.emplace_front(39);
+	list.emplace_front(49);
 
 	auto curr_value = list.begin();
 
@@ -57,12 +57,12 @@ TEST_CASE("Test iterators to forward_list.", "[test_iterators_forward_list]")
 
 	my_list.push_front(1);
 	my_list.push_front(2);
-	my_list.emplace_back(3);
-	my_list.emplace_back(4);
+	my_list.emplace_front(3);
+	my_list.emplace_front(4);
 	my_list.push_front(5);
-	my_list.emplace_back(6);
+	my_list.emplace_front(6);
 
-	for (auto& x : my_list)
+	for (const auto& x : my_list)
 		sum += x;
 
 	REQUIRE(sum == 21);

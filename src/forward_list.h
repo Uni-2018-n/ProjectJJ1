@@ -104,12 +104,12 @@ public:
 		}
 	}
 
-	void push_front(const_reference item) { emplace_back(item); }
+	void push_front(const_reference item) { emplace_front(item); }
 
-	void push_front(T&& item) { emplace_back(std::move(item)); }
+	void push_front(T&& item) { emplace_front(std::move(item)); }
 
 	template <typename... Args>
-	reference emplace_back(Args&&... args)
+	reference emplace_front(Args&&... args)
 	{
 		m_head = new node(m_head, std::forward<Args>(args)...);
 
