@@ -24,7 +24,7 @@ bkNode::bkNode(string* s, match_type m)
 void bkNode::add(string* s)
 {
 	unsigned long curr;
-	if (type == match_type::EDIT_DISTANCE)
+	if (type == match_type::EDIT_DISTANCE) //use the correct function for when editDistance is required or hamming
 	{
 		curr = getEdit(*str, *s);
 	}
@@ -32,13 +32,13 @@ void bkNode::add(string* s)
 	{
 		curr = getHamming(*str, *s);
 	}
-	if (childs[curr] == nullptr)
+	if (childs[curr] == nullptr) //check if the branch is already created
 	{
-		childs[curr] = new bkNode(s, type);
+		childs[curr] = new bkNode(s, type);//if not create it
 	}
 	else
 	{
-		childs[curr]->add(s);
+		childs[curr]->add(s);//else repeat with the child
 	}
 }
 bkNode::~bkNode()
@@ -64,38 +64,37 @@ bud::vector<bud::string*> bkNode::find(const bud::string& s, int tol)
 			temp = getHamming(*str, s);
 		}
 
-		if (temp <= tol)
+		if (temp <= tol)//check if we can add the current to the array(by checking with the tol)
 		{
 			fin.emplace_back(str);
 		}
-		for (unsigned long i = temp - tol < 0 ? 1 : unsigned(temp - tol); i <= unsigned(temp + tol);
-			 i++)
+		for (unsigned long i = temp - tol < 0 ? 0 : unsigned(temp - tol); i <= unsigned(temp + tol);i++)//for temp-tol (if negative we assume 0) till temp+tol repeat actions for each child
 		{
 			if (childs[i] != nullptr)
 			{
 				vector<string*> t = childs[i]->find(s, tol);
-				fin.insert(t.begin(), t.end());
+				fin.insert(t.begin(), t.end());//and update the final vector for each outcome 
 			}
 		}
 	}
 	return fin;
 }
 
-bkTree::bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m) // TODO
+bkTree::bkTree(bud::vector<bud::vector<bud::string*>>& queries, match_type m)
 	:
 	inverted_search_engine(queries)
 {
 	type = m;
-	if (m_words_from_all_queries.size() == 0)
+	if (m_words_from_all_queries.size() == 0)//if vector is empty there is no point so we throw exception
 	{
 		throw std::invalid_argument("Vector is empty!");
 	}
-	root = new bkNode(m_words_from_all_queries[0], type);
+	root = new bkNode(m_words_from_all_queries[0], type);//since its an constructor we can set the root like that.
 	unsigned long len = m_words_from_all_queries[0]->size();
-	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)
+	for (unsigned i = 1; i < m_words_from_all_queries.size(); i++)//for each word in the array
 	{
-		if (m == match_type::EDIT_DISTANCE ||
-			(m == match_type::HAMMING_DISTANCE && m_words_from_all_queries[i]->size() != len))
+		if (m == match_type::EDIT_DISTANCE ||//if its edit distance we always need to add it to the tree
+			(m == match_type::HAMMING_DISTANCE && m_words_from_all_queries[i]->size() == len))//if its hamming we have to check that the lengths are equal, if not just skip it
 		{
 			this->add(m_words_from_all_queries[i]);
 		}
