@@ -25,6 +25,13 @@ TEST_CASE("Copy strings.", "[copy_strings]")
 	REQUIRE(word_1 == word_2);
 }
 
+TEST_CASE("Self assignment string.", "[self_assignment_string]")
+{
+	string word_1("this is a string.");
+	word_1 = word_1;
+	REQUIRE(word_1 == word_1);
+}
+
 TEST_CASE("Check string character.", "[check_string_character]")
 {
 	string word_1("this is a string.");
@@ -50,14 +57,16 @@ TEST_CASE("Check copy constructor.", "[check_copy_constructor]")
 	REQUIRE(word_1 == word_2);
 }
 
-TEST_CASE("Check equal", "[check_equal]"){
+TEST_CASE("Check equal", "[check_equal]")
+{
 	string word_1("pp");
 	string word_2("test");
 	word_1 = word_2;
 	REQUIRE(word_1 == word_2);
 }
 
-TEST_CASE("Check equal small", "[check_equal_small]"){
+TEST_CASE("Check equal small", "[check_equal_small]")
+{
 	string word_1("pp");
 	REQUIRE(word_1 == string("pp"));
 }
