@@ -45,9 +45,9 @@ public:
 
 	~unique_ptr() { delete m_data; }
 
-	pointer get() const noexcept { return m_data; }
+	[[nodiscard]] pointer get() const noexcept { return m_data; }
 
-	pointer release() noexcept
+	[[nodiscard]] pointer release() noexcept
 	{
 		pointer tmp = m_data;
 		m_data = nullptr;
@@ -61,12 +61,6 @@ public:
 	}
 
 private:
-	void move(unique_ptr&& u)
-	{
-		reset(u.get());
-		u.m_data = nullptr;
-	}
-
 	T* m_data = nullptr;
 };
 
