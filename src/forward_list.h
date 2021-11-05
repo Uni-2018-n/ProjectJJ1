@@ -116,7 +116,7 @@ public:
 		return m_head->m_value;
 	}
 
-	bool empty() const noexcept { return m_head == nullptr; }
+	[[nodiscard]] bool empty() const noexcept { return m_head == nullptr; }
 
 	reference front() { return m_head->m_value; }
 

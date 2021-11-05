@@ -28,13 +28,13 @@ public:
 private:
 	size_type calculate_file_size();
 
-	size_type get_apr_num_of_words() const;
+	[[nodiscard]] size_type get_apr_num_of_words() const;
 
-	size_type get_apr_num_of_queries() const;
+	[[nodiscard]] size_type get_apr_num_of_queries() const;
 
-	size_type get_apr_num_of_words_per_query() const;
+	[[nodiscard]] size_type get_apr_num_of_words_per_query() const;
 
-	size_type get_apr_num_of_unique_words() const;
+	[[nodiscard]] size_type get_apr_num_of_unique_words() const;
 
 	FILE* m_file;
 	size_type m_file_size;

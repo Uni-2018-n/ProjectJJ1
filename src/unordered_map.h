@@ -56,7 +56,7 @@ public:
 		for (auto& item : *bucket_ptr)
 		{
 			if (compare_values(item.first, value.first))
-				return pair<T*, bool>(&item.second, false);
+				return pair(&item.second, false);
 		}
 
 		T* return_value = &(bucket_ptr->emplace_front(value).second);
@@ -66,7 +66,7 @@ public:
 		return pair<T*, bool>(return_value, true);
 	}
 
-	size_type size() const { return m_size; }
+	[[nodiscard]] size_type size() const { return m_size; }
 
 private:
 	size_type m_get_hash(key_type key) const { return m_hash_function(key) % m_items.size(); }

@@ -6,6 +6,8 @@
 #include <iterator>
 #include <exception>
 
+#include "unique_ptr.h"
+
 namespace bud
 {
 
@@ -250,15 +252,15 @@ public:
 	constexpr pointer data() noexcept { return m_elements; }
 	constexpr const_pointer data() const noexcept { return m_elements; }
 
-	constexpr size_type size() const noexcept { return m_size; }
-	constexpr size_type capacity() const noexcept { return m_capacity; }
-	constexpr size_type empty() const noexcept { return m_size == 0; }
+	[[nodiscard]] constexpr size_type size() const noexcept { return m_size; }
+	[[nodiscard]] constexpr size_type capacity() const noexcept { return m_capacity; }
+	[[nodiscard]] constexpr size_type empty() const noexcept { return m_size == 0; }
 
 private:
 	constexpr void reallocate(size_type new_cap)
 	{
 		T* new_block = allocate_new_t_block(new_cap);
-		transfer_items_to_new_block<T>(new_block);
+		transfer_items_to_new_block(new_block);
 
 		destruct_elements();
 		::operator delete(m_elements);
@@ -267,20 +269,19 @@ private:
 		m_capacity = new_cap;
 	}
 
-	template <typename X>
-	typename std::enable_if_t<!std::is_nothrow_move_constructible<
-		X>::value> constexpr transfer_items_to_new_block(X* new_block) const
+	constexpr void transfer_items_to_new_block(T* new_block)
 	{
-		for (size_type i = 0; i < m_size; ++i)
-			new (&new_block[i]) T(m_elements[i]);
-	}
+		if constexpr (std::is_nothrow_move_constructible_v<T>)
+		{
+			for (size_type i = 0; i < m_size; ++i)
+				new (&new_block[i]) T(std::move(m_elements[i]));
+		}
 
-	template <typename X>
-	typename std::enable_if_t<std::is_nothrow_move_constructible<
-		X>::value> constexpr transfer_items_to_new_block(X* new_block)
-	{
-		for (size_type i = 0; i < m_size; ++i)
-			new (&new_block[i]) T(std::move(m_elements[i]));
+		else
+		{
+			for (size_type i = 0; i < m_size; ++i)
+				new (&new_block[i]) T(m_elements[i]);
+		}
 	}
 
 	constexpr void move(vector&& other)
@@ -316,7 +317,7 @@ private:
 			i.~T();
 	}
 
-	constexpr size_type get_increased_capacity() const
+	[[nodiscard]] constexpr size_type get_increased_capacity() const
 	{
 		return m_capacity * CAPACITY_INCREASE_FACTOR + 1;
 	}

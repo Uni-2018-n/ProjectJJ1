@@ -90,22 +90,22 @@ TEST_CASE("Bool operator", "[bool_operator")
 	REQUIRE(x);
 }
 
-class Base
+class base
 {
 public:
 	int m_y;
-	explicit Base(int y) : m_y(y) {}
+	explicit base(int y) : m_y(y) {}
 };
 
-class Derived : public Base
+class derived : public base
 {
 public:
-	explicit Derived(int y) : Base(y) {}
+	explicit derived(int y) : base(y) {}
 };
 
-TEST_CASE("Derived class pointer to a base class pointer", "[derived_pointer_to_base_pointer]")
+TEST_CASE("derived class pointer to a base class pointer", "[derived_pointer_to_base_pointer]")
 {
-	unique_ptr<Base> x(new Derived(9));
+	unique_ptr<base> x(new derived(9));
 
 	REQUIRE(x->m_y == 9);
 }
