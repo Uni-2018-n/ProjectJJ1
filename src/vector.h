@@ -257,7 +257,7 @@ public:
 private:
 	constexpr void reallocate(size_type new_cap)
 	{
-		T* new_block = allocate_new_t_block(new_cap);
+		T* new_block = allocate_new_blocks(new_cap);
 		transfer_items_to_new_block(new_block);
 
 		destruct_elements();
@@ -299,7 +299,7 @@ private:
 		if (m_capacity < other.m_size)
 		{
 			::operator delete(m_elements);
-			m_elements = allocate_new_t_block(other.m_size);
+			m_elements = allocate_new_blocks(other.m_size);
 			m_capacity = other.m_size;
 		}
 
@@ -323,7 +323,7 @@ private:
 		return m_capacity * CAPACITY_INCREASE_FACTOR + 1;
 	}
 
-	constexpr T* allocate_new_t_block(size_type size) const
+	constexpr T* allocate_new_blocks(size_type size) const
 	{
 		return static_cast<T*>(::operator new(sizeof(T) * size));
 	}
