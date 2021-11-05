@@ -26,6 +26,7 @@ public:
 	{
 		reset(u.get());
 		u.m_data = nullptr;
+		return *this;
 	}
 
 	unique_ptr& operator=(std::nullptr_t) noexcept
@@ -35,7 +36,7 @@ public:
 	}
 
 	unique_ptr(const unique_ptr& p) = delete;
-	T& operator=(const unique_ptr& p) = delete;
+	unique_ptr& operator=(const unique_ptr& p) = delete;
 
 	T& operator*() const noexcept { return *m_data; }
 	pointer operator->() const noexcept { return m_data; }
