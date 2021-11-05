@@ -5,6 +5,8 @@
 #include <iterator>
 #include <utility>
 
+#include "unique_ptr.h"
+
 namespace bud
 {
 
@@ -14,12 +16,12 @@ template <class T>
 struct forward_list_node
 {
 	template <typename... Args>
-	explicit forward_list_node(forward_list_node* next, Args&&... value) :
-		m_next(next), m_value(std::forward<Args>(value)...)
+	explicit forward_list_node(unique_ptr<forward_list_node>&& next, Args&&... value) :
+		m_next(std::move(next)), m_value(std::forward<Args>(value)...)
 	{
 	}
 
-	forward_list_node* m_next;
+	unique_ptr<forward_list_node> m_next;
 	T m_value;
 };
 
@@ -44,7 +46,7 @@ public:
 	forward_list_iterator& operator++()
 	{
 		if (m_ptr != nullptr)
-			m_ptr = m_ptr->m_next;
+			m_ptr = m_ptr->m_next.get();
 
 		return *this;
 	}
@@ -76,33 +78,22 @@ class forward_list
 	using reference = value_type&;
 	using const_reference = const value_type&;
 	using node = forward_list_node<T>;
-	using node_pointer = node*;
 	using iterator = forward_list_iterator<T>;
 
 public:
 	forward_list() = default;
 
-	forward_list(forward_list&& other) noexcept : m_head(other.m_head) { other.m_head = nullptr; }
+	forward_list(forward_list&& other) noexcept : m_head(std::move(other.m_head)) {}
 
 	~forward_list() { clear(); }
 
 	forward_list& operator=(forward_list&& other) noexcept
 	{
-		m_head = other.m_head;
-		other.m_head = nullptr;
-
+		m_head = std::move(other.m_head);
 		return *this;
 	}
 
-	void clear() noexcept
-	{
-		while (m_head != nullptr)
-		{
-			node_pointer temp = m_head->m_next;
-			delete m_head;
-			m_head = temp;
-		}
-	}
+	void clear() noexcept { m_head = nullptr; }
 
 	void push_front(const_reference item) { emplace_front(item); }
 
@@ -111,22 +102,22 @@ public:
 	template <typename... Args>
 	reference emplace_front(Args&&... args)
 	{
-		m_head = new node(m_head, std::forward<Args>(args)...);
+		m_head = make_unique<node>(std::move(m_head), std::forward<Args>(args)...);
 
 		return m_head->m_value;
 	}
 
-	[[nodiscard]] bool empty() const noexcept { return m_head == nullptr; }
+	[[nodiscard]] bool empty() const noexcept { return !static_cast<bool>(m_head); }
 
 	[[nodiscard]] reference front() { return m_head->m_value; }
 
 	[[nodiscard]] const_reference front() const { return m_head->m_value; }
 
-	[[nodiscard]] iterator begin() noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator begin() noexcept { return iterator(m_head.get()); }
 
-	[[nodiscard]] iterator begin() const noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator begin() const noexcept { return iterator(m_head.get()); }
 
-	[[nodiscard]] iterator cbegin() const noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator cbegin() const noexcept { return iterator(m_head.get()); }
 
 	[[nodiscard]] iterator end() noexcept { return iterator(); }
 
@@ -135,7 +126,7 @@ public:
 	[[nodiscard]] iterator cend() const noexcept { return iterator(); }
 
 private:
-	node_pointer m_head = nullptr;
+	unique_ptr<node> m_head;
 };
 
 } // namespace bud
