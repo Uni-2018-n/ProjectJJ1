@@ -313,8 +313,11 @@ private:
 
 	constexpr void destruct_elements() const
 	{
-		for (auto& i : *this)
-			i.~T();
+		if constexpr (!std::is_trivially_destructible_v<T>)
+		{
+			for (auto& i : *this)
+				i.~T();
+		}
 	}
 
 	[[nodiscard]] constexpr size_type get_increased_capacity() const
