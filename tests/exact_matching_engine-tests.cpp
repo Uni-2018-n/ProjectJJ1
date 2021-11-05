@@ -4,9 +4,12 @@
 #include "../src/vector.h"
 #include "../src/string.h"
 #include "../src/file_reader.h"
+#include "../src/unique_ptr.h"
 
 using bud::file_reader;
+using bud::make_unique;
 using bud::string;
+using bud::unique_ptr;
 using bud::vector;
 
 TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
@@ -15,8 +18,8 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
 
-	inverted_search_engine* engine =
-		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
+	auto engine =
+		unique_ptr(inverted_search_engine::search_engine_factory(queries, match_type::EXACT));
 
 	file_reader document_file_reader("../documents/document_3.txt");
 
@@ -25,8 +28,6 @@ TEST_CASE("Test word not in any query.", "[word_not_in_any_query]")
 	vector<int> found_queries = engine->find(document_words[0]);
 
 	REQUIRE(found_queries.empty());
-
-	delete engine;
 }
 
 TEST_CASE("Test words in queries.", "[words_in_queries]")
@@ -35,8 +36,8 @@ TEST_CASE("Test words in queries.", "[words_in_queries]")
 
 	vector<vector<string*>> queries = query_file_reader.read_queries();
 
-	inverted_search_engine* engine =
-		inverted_search_engine::search_engine_factory(queries, match_type::EXACT);
+	auto engine =
+		unique_ptr(inverted_search_engine::search_engine_factory(queries, match_type::EXACT));
 
 	file_reader document_file_reader("../documents/document_4.txt");
 
@@ -59,6 +60,4 @@ TEST_CASE("Test words in queries.", "[words_in_queries]")
 
 	found_queries = engine->find(document_words[3]);
 	REQUIRE(found_queries.empty());
-
-	delete engine;
 }

@@ -69,7 +69,7 @@ TEST_CASE("Test iterators to forward_list.", "[test_iterators_forward_list]")
 
 	forward_list<int> my_other_list;
 
-	for (auto& x : my_other_list)
+	for (const auto& x : my_other_list)
 		sum += x;
 
 	REQUIRE(sum == 21);
