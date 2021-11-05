@@ -35,7 +35,7 @@ bud::vector<bud::string> bud::file_reader::read_unique_words()
 
 		buffer[chars_read - 1] = '\0';
 
-		bud::string new_word(buffer);
+		const bud::string new_word(buffer);
 
 		if (hash_map[new_word] == nullptr)
 		{
