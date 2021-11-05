@@ -19,15 +19,14 @@ inverted_search_engine::inverted_search_engine(const vector<bud::vector<bud::str
 
 	m_words_from_all_queries.reserve(num_of_words);
 
-	m_hash_map = new bud::unordered_map<bud::string*, bud::vector<int>, HashFunction>(num_of_words);
+	m_hash_map = bud::unique_ptr(
+		new bud::unordered_map<bud::string*, bud::vector<int>, HashFunction>(num_of_words));
 
 	add_queries_to_containers(queries);
 }
 
 inverted_search_engine::~inverted_search_engine()
 {
-	delete m_hash_map;
-
 	for (auto* word : m_words_from_all_queries)
 		delete word;
 }
@@ -74,7 +73,6 @@ inverted_search_engine::search_engine_factory(bud::vector<bud::vector<bud::strin
 		return new exact_matching_engine(queries);
 
 	return new bkTree(queries, type);
-
 }
 
 std::size_t

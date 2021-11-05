@@ -8,6 +8,7 @@
 #include "vector.h"
 #include "unordered_map.h"
 #include "string.h"
+#include "unique_ptr.h"
 
 enum class match_type
 {
@@ -37,7 +38,7 @@ protected:
 
 	bud::vector<bud::string*> m_words_from_all_queries;
 
-	bud::unordered_map<bud::string*, bud::vector<int>, HashFunction>* m_hash_map;
+	bud::unique_ptr<bud::unordered_map<bud::string*, bud::vector<int>, HashFunction>> m_hash_map;
 };
 
 #endif // INVERTED_SEARCH_ENGINE_H
