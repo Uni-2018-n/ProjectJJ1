@@ -6,13 +6,13 @@
 #include "string.h"
 
 template <typename T>
-bool compare_values(const T& first, const T& second)
+[[nodiscard]] bool compare_values(const T& first, const T& second)
 {
 	return first == second;
 }
 
 template <typename T>
-bool compare_values(T* first, T* second)
+[[nodiscard]] bool compare_values(T* first, T* second)
 {
 	return *first == *second;
 }

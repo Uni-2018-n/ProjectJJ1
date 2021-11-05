@@ -118,21 +118,21 @@ public:
 
 	[[nodiscard]] bool empty() const noexcept { return m_head == nullptr; }
 
-	reference front() { return m_head->m_value; }
+	[[nodiscard]] reference front() { return m_head->m_value; }
 
-	const_reference front() const { return m_head->m_value; }
+	[[nodiscard]] const_reference front() const { return m_head->m_value; }
 
-	iterator begin() noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator begin() noexcept { return iterator(m_head); }
 
-	iterator begin() const noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator begin() const noexcept { return iterator(m_head); }
 
-	iterator cbegin() const noexcept { return iterator(m_head); }
+	[[nodiscard]] iterator cbegin() const noexcept { return iterator(m_head); }
 
-	iterator end() noexcept { return iterator(); }
+	[[nodiscard]] iterator end() noexcept { return iterator(); }
 
-	iterator end() const noexcept { return iterator(); }
+	[[nodiscard]] iterator end() const noexcept { return iterator(); }
 
-	iterator cend() const noexcept { return iterator(); }
+	[[nodiscard]] iterator cend() const noexcept { return iterator(); }
 
 private:
 	node_pointer m_head = nullptr;

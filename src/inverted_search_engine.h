@@ -27,13 +27,13 @@ public:
 	static inverted_search_engine*
 	search_engine_factory(bud::vector<bud::vector<bud::string*>>& queries, match_type match_type);
 
-	virtual bud::vector<int> find(bud::string& word, int threshold) const = 0;
-	virtual bud::vector<int> find(bud::string& word) const;
+	[[nodiscard]] virtual bud::vector<int> find(bud::string& word, int threshold) const = 0;
+	[[nodiscard]] virtual bud::vector<int> find(bud::string& word) const;
 
 protected:
 	void add_queries_to_containers(const bud::vector<bud::vector<bud::string*>>& queries);
 
-	static std::size_t
+	[[nodiscard]] static std::size_t
 	count_words_in_queries(const bud::vector<bud::vector<bud::string*>>& queries);
 
 	bud::vector<bud::string*> m_words_from_all_queries;
