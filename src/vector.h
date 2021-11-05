@@ -6,8 +6,6 @@
 #include <iterator>
 #include <exception>
 
-#include "unique_ptr.h"
-
 namespace bud
 {
 
