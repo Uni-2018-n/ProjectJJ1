@@ -28,6 +28,12 @@ public:
 
 	explicit unordered_map(size_type size = DEFAULT_SIZE) : m_items(size) {}
 
+	unordered_map() = delete;
+	~unordered_map() = default;
+	unordered_map(const unordered_map& p) = delete;
+	unordered_map(unordered_map&& u) = delete;
+	unordered_map& operator=(unordered_map&& u) = delete;
+
 	T* operator[](const key_type& key) const
 	{
 		if (m_items.size() == 0)
