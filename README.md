@@ -1,3 +1,5 @@
+![Unit Testing](https://github.com/smackflad/ProjectJJ1/actions/workflows/cmake.yml/badge.svg)
+
 sdi1800056 sdi1800072
 
 * Έχει γίνει χρήση cmake. Για να γίνει compile το πρόγραμμα θα πρέπει να εκτελεστεί η
