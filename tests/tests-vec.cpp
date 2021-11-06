@@ -1,6 +1,7 @@
 #include "../lib/include/catch2/catch.hpp"
-
 #include "../src/vector.h"
+
+#include <string>
 
 using bud::vector;
 
@@ -136,4 +137,25 @@ TEST_CASE("Test iterators in vector.", "[test_iterators_vector]")
 		sum += x;
 
 	REQUIRE(sum == 21);
+}
+
+TEST_CASE("Vector of long strings", "[vector_of_long_strings]")
+{
+	std::string s_1("This is a really really long string.");
+	std::string s_2("This is another really really really long string.");
+
+	vector<std::string>	vec;
+
+	vec.push_back(s_1);
+	vec.push_back(s_2);
+
+	REQUIRE(vec[0] == s_1);
+	REQUIRE(vec[1] == s_2);
+
+	vec.clear();
+
+	vec.emplace_back("This is the last really really really long string.");
+
+	REQUIRE(vec[0] != s_1);
+	REQUIRE(vec[0] != s_2);
 }
