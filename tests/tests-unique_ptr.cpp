@@ -1,12 +1,9 @@
 #include "../lib/include/catch2/catch.hpp"
-
 #include "../src/unique_ptr.h"
-#include "../src/string.h"
 
 #include <utility>
 
 using bud::make_unique;
-using bud::string;
 using bud::unique_ptr;
 
 TEST_CASE("Construct empty unique_ptr", "[construct_empty_unique_ptr]")
@@ -32,7 +29,8 @@ TEST_CASE("Move operations", "[move_operations")
 	unique_ptr<int> x_2(std::move(x_1));
 	REQUIRE(*x_2 == 4);
 
-	unique_ptr<int> x_3 = std::move(x_2);
+	unique_ptr<int> x_3;
+	x_3 = std::move(x_2);
 	REQUIRE(*x_3 == 4);
 }
 
@@ -65,13 +63,6 @@ TEST_CASE("Release", "[release]")
 	delete x_ptr;
 }
 
-TEST_CASE("Arrow operator", "[arrow_operator")
-{
-	unique_ptr<string> x(new string("123"));
-
-	REQUIRE(x->operator[](0) == '1');
-}
-
 TEST_CASE("Dereference operator", "[dereference_operator")
 {
 	unique_ptr<int> x(new int(15));
@@ -90,24 +81,46 @@ TEST_CASE("Bool operator", "[bool_operator")
 	REQUIRE(x);
 }
 
-class base
+class Base
 {
 public:
+	explicit Base(int y) : m_y(y) {}
+
 	int m_y;
-	explicit base(int y) : m_y(y) {}
 };
 
-class derived : public base
+class Derived : public Base
 {
 public:
-	explicit derived(int y) : base(y) {}
+	explicit Derived(int y) : Base(y) {}
 };
 
-TEST_CASE("derived class pointer to a base class pointer", "[derived_pointer_to_base_pointer]")
+TEST_CASE("Derived class pointer to a base class pointer", "[derived_pointer_to_base_pointer]")
 {
-	unique_ptr<base> x(new derived(9));
+	unique_ptr<Base> x(new Derived(9));
 
 	REQUIRE(x->m_y == 9);
+
+	unique_ptr<Derived> derived(new Derived(8));
+
+	unique_ptr<Base> base = std::move(derived);
+
+	REQUIRE(base->m_y == 8);
+
+	unique_ptr<Base> other_base(new Base(9));
+	other_base = std::move(base);
+
+	REQUIRE(other_base->m_y == 8);
+
+	unique_ptr<Derived> third_base(new Derived(8));
+
+	unique_ptr<Base> forth_base(new Base(18));
+	forth_base = std::move(third_base);
+	REQUIRE(forth_base->m_y == 8);
+
+	unique_ptr<Derived> fifth_base(new Derived(28));
+	unique_ptr<Base> sixth(std::move(fifth_base));
+	REQUIRE(sixth->m_y == 28);
 }
 
 TEST_CASE("make_unique", "[make_unique]")
