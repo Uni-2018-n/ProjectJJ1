@@ -20,11 +20,11 @@ add_compile_options(-Wall -Wextra -Wpedantic
         -ggdb -O0)
 
 file(GLOB_RECURSE TEST_SOURCES tests/*.cpp)
-file(GLOB_RECURSE NO_MAIN_SOURCES src/*.cpp)
+file(GLOB_RECURSE MAIN_SOURCES src/*.cpp)
 
 find_package(Catch2 REQUIRED PATHS "${PROJECT_SOURCE_DIR}/lib")
 
-add_executable(${TEST_TARGET} ${NO_MAIN_SOURCES} ${TEST_SOURCES})
+add_executable(${TEST_TARGET} ${MAIN_SOURCES} ${TEST_SOURCES})
 target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2)
 
 include(CTest)
