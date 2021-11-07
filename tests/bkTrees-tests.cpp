@@ -1,6 +1,6 @@
 #include "../lib/include/catch2/catch.hpp"
 
-#include "../src/string.h"
+#include "../src/my_string.h"
 #include "../src/bkTrees/bkTree.h"
 #include "../src/file_reader.h"
 #include <iostream>

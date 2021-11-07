@@ -4,7 +4,7 @@
 
 #include "../src/file_reader.h"
 #include "../src/vector.h"
-#include "../src/string.h"
+#include "../src/my_string.h"
 
 using bud::file_reader;
 using bud::string;

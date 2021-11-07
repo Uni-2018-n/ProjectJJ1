@@ -1,7 +1,7 @@
 #ifndef BKTREE_HPP
 #define BKTREE_HPP
 
-#include "../string.h"
+#include "../my_string.h"
 #include "../core.h"
 #include "../vector.h"
 #include "../inverted_search_engine.h"

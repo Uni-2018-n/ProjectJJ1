@@ -2,7 +2,7 @@
 
 #include "editDistance.h"
 
-#include "../../string.h"
+#include "../../my_string.h"
 
 using bud::string;
 
