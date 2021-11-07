@@ -6,105 +6,21 @@
 #include <iterator>
 #include <exception>
 
+#include "iterator.h"
+
 namespace bud
 {
 
 constexpr std::size_t CAPACITY_INCREASE_FACTOR_VECTOR = 2;
 using size_type = std::size_t;
 
-template <typename T>
-class vector_iterator
-{
-public:
-	using value_type = T;
-	using pointer = value_type*;
-	using const_pointer = const value_type*;
-	using reference = value_type&;
-	using const_reference = const value_type&;
-	using iterator_category = std::random_access_iterator_tag;
-	using difference_type = std::ptrdiff_t;
-
-	vector_iterator() = default;
-	constexpr explicit vector_iterator(pointer ptr) : m_ptr(ptr) {}
-
-	constexpr vector_iterator& operator++()
-	{
-		m_ptr++;
-		return *this;
-	}
-
-	constexpr vector_iterator operator++(int)
-	{
-		vector_iterator it(*this);
-		++m_ptr;
-		return it;
-	}
-
-	constexpr vector_iterator& operator--()
-	{
-		m_ptr--;
-		return *this;
-	}
-
-	constexpr vector_iterator operator--(int)
-	{
-		vector_iterator it(*this);
-		--m_ptr;
-		return it;
-	}
-
-	constexpr vector_iterator& operator+=(size_type offset)
-	{
-		m_ptr += offset;
-		return *this;
-	}
-
-	constexpr vector_iterator& operator-=(size_type offset)
-	{
-		m_ptr -= offset;
-		return *this;
-	}
-
-	constexpr vector_iterator operator+(size_type offset) const
-	{
-		vector_iterator it(*this);
-		return it += offset;
-	}
-
-	constexpr vector_iterator operator-(size_type offset) const
-	{
-		vector_iterator it(*this);
-		return it -= offset;
-	}
-
-	difference_type operator-(const vector_iterator& other) const { return m_ptr - other.m_ptr; }
-
-	constexpr reference operator[](size_type index) { return *(m_ptr + index); }
-	constexpr const_reference operator[](size_type index) const { return *(m_ptr + index); }
-
-	constexpr pointer operator->() { return m_ptr; }
-	constexpr const_pointer operator->() const { return m_ptr; }
-
-	constexpr reference operator*() { return *m_ptr; }
-	constexpr const_reference operator*() const { return *m_ptr; }
-
-	constexpr bool operator==(const vector_iterator& other) const { return m_ptr == other.m_ptr; }
-	constexpr bool operator!=(const vector_iterator& other) const { return m_ptr != other.m_ptr; }
-	constexpr bool operator<(const vector_iterator& other) const { return m_ptr < other.m_ptr; }
-	constexpr bool operator<=(const vector_iterator& other) const { return m_ptr <= other.m_ptr; }
-	constexpr bool operator>(const vector_iterator& other) const { return m_ptr > other.m_ptr; }
-	constexpr bool operator>=(const vector_iterator& other) const { return m_ptr >= other.m_ptr; }
-
-private:
-	pointer m_ptr = nullptr;
-};
-
 template <class T>
 class vector
 {
 public:
 	using value_type = T;
-	using iterator = vector_iterator<T>;
+	using iterator = random_access_iterator<T>;
+	using const_iterator = random_access_iterator<const T>;
 	using pointer = T*;
 	using const_pointer = T const*;
 	using reference = value_type&;
@@ -244,13 +160,16 @@ public:
 		m_size = 0;
 	}
 
-	[[nodiscard]] constexpr iterator begin() noexcept { return iterator(m_elements); }
-	[[nodiscard]] constexpr iterator begin() const noexcept { return iterator(m_elements); }
-	[[nodiscard]] constexpr iterator cbegin() const noexcept { return iterator(m_elements); }
+	[[nodiscard]] iterator begin() noexcept { return iterator(m_elements); }
+	[[nodiscard]] iterator begin() const noexcept { return iterator(m_elements); }
+	[[nodiscard]] const_iterator cbegin() const noexcept { return const_iterator(m_elements); }
 
-	[[nodiscard]] constexpr iterator end() noexcept { return iterator(m_elements + m_size); }
-	[[nodiscard]] constexpr iterator end() const noexcept { return iterator(m_elements + m_size); }
-	[[nodiscard]] constexpr iterator cend() const noexcept { return iterator(m_elements + m_size); }
+	[[nodiscard]] iterator end() noexcept { return iterator(m_elements + m_size); }
+	[[nodiscard]] iterator end() const noexcept { return iterator(m_elements + m_size); }
+	[[nodiscard]] const_iterator cend() const noexcept
+	{
+		return const_iterator(m_elements + m_size);
+	}
 
 	[[nodiscard]] constexpr reference front() noexcept { return m_elements[0]; }
 	[[nodiscard]] constexpr const_reference front() const noexcept { return m_elements[0]; }
