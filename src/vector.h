@@ -9,7 +9,7 @@
 namespace bud
 {
 
-constexpr std::size_t CAPACITY_INCREASE_FACTOR = 2;
+constexpr std::size_t CAPACITY_INCREASE_FACTOR_VECTOR = 2;
 using size_type = std::size_t;
 
 template <typename T>
@@ -319,7 +319,7 @@ private:
 
 	[[nodiscard]] constexpr size_type get_increased_capacity() const
 	{
-		return m_capacity * CAPACITY_INCREASE_FACTOR + 1;
+		return m_capacity * CAPACITY_INCREASE_FACTOR_VECTOR + 1;
 	}
 
 	[[nodiscard]] constexpr T* allocate_new_blocks(size_type size) const
