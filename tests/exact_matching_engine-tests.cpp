@@ -60,3 +60,28 @@ TEST_CASE("Test words in queries.", "[words_in_queries]")
 	found_queries = engine->find(document_words[3]);
 	REQUIRE(found_queries.empty());
 }
+
+TEST_CASE("Test with a lot of words exact_matching.", "[lots_of_words_exact]")
+{
+	file_reader query_file_reader("../queries/query_7.txt");
+
+	vector<vector<string*>> queries = query_file_reader.read_queries();
+
+	auto engine =
+		unique_ptr(inverted_search_engine::search_engine_factory(queries, match_type::EXACT));
+
+	file_reader document_file_reader("../documents/document_5.txt");
+
+	vector<string> document_words = document_file_reader.read_unique_words();
+
+	std::size_t sum = 0;
+
+	for (auto& word : document_words)
+		sum += engine->find(word).size();
+
+	REQUIRE(sum == 393);
+
+	vector<int> matching_queries = engine->find(document_words[530]);
+	REQUIRE(matching_queries.size() == 1);
+	REQUIRE(matching_queries[0] == 1629);
+}
