@@ -1,5 +1,5 @@
 #include "bkTree.h"
-#include "../string.h"
+#include "../my_string.h"
 #include "../vector.h"
 #include "../inverted_search_engine.h"
 #include "../unordered_map.h"

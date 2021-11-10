@@ -5,7 +5,7 @@
 
 #include "core.h"
 #include "vector.h"
-#include "string.h"
+#include "my_string.h"
 
 namespace bud
 {

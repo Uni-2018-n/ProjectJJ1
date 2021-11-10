@@ -2,12 +2,11 @@
 
 #include "../src/exact_matching_engine.h"
 #include "../src/vector.h"
-#include "../src/string.h"
+#include "../src/my_string.h"
 #include "../src/file_reader.h"
 #include "../src/unique_ptr.h"
 
 using bud::file_reader;
-using bud::make_unique;
 using bud::string;
 using bud::unique_ptr;
 using bud::vector;

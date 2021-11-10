@@ -1,7 +1,7 @@
 #include "inverted_search_engine.h"
 
 #include "bkTrees/bkTree.h"
-#include "string.h"
+#include "my_string.h"
 #include "vector.h"
 #include "exact_matching_engine.h"
 #include "unordered_map.h"

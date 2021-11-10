@@ -4,7 +4,7 @@
 #include "inverted_search_engine.h"
 
 #include "vector.h"
-#include "string.h"
+#include "my_string.h"
 
 class exact_matching_engine : public inverted_search_engine
 {

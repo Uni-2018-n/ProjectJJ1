@@ -7,7 +7,7 @@
 
 #include "vector.h"
 #include "unordered_map.h"
-#include "string.h"
+#include "my_string.h"
 #include "unique_ptr.h"
 
 enum class match_type

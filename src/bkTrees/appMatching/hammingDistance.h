@@ -1,7 +1,7 @@
 #ifndef hammingDistance
 #define hammingDistance
 
-#include "../../string.h"
+#include "../../my_string.h"
 
 unsigned long getHamming(bud::string f, bud::string s);
 
