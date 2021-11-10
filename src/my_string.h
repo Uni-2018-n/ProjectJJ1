@@ -127,7 +127,7 @@ public:
 	constexpr reference operator[](size_type pos) noexcept { return m_elem[pos]; }
 	constexpr const_reference operator[](size_type pos) const noexcept { return m_elem[pos]; }
 
-	[[nodiscard]] constexpr reference at(size_type pos)
+	[[nodiscard]] reference at(size_type pos)
 	{
 		if (pos < m_size)
 			return m_elem[pos];
@@ -135,7 +135,7 @@ public:
 		throw std::out_of_range("Index out of range");
 	}
 
-	[[nodiscard]] constexpr const_reference at(size_type pos) const
+	[[nodiscard]] const_reference at(size_type pos) const
 	{
 		if (pos < m_size)
 			return m_elem[pos];
